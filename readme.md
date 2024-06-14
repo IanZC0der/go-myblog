@@ -15,11 +15,11 @@ Basic workflow: publish, view blogs with/without accounts, comment
 
 Prototype:
 
-![Prototype of the App](./docs/imgs/proto.drawio)
+[Prototype of the App](./docs/imgs/proto.drawio)
 
 ## architecture
 
-![architecture](./docs/imgs/arch.drawio)
+[architecture](./docs/imgs/arch.drawio)
 
 - API server: RESTful API
 - UI
@@ -28,8 +28,8 @@ Prototype:
 
 1. interface
 
-![interface](./docs/imgs/interface.drawio)
+[interface](./docs/imgs/interface.drawio)
 
 2. flowchart
 
-![flowchart](./docs/imgs/apiserver.drawio)
+[flowchart](./docs/imgs/apiserver.drawio)
