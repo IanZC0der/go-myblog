@@ -7,6 +7,8 @@ import (
 	"gorm.io/driver/mysql"
 
 	"gorm.io/gorm"
+
+	"encoding/json"
 )
 
 // config for the backend
@@ -17,21 +19,27 @@ func DefaultConfig() *Config {
 			Port:     3306,
 			DB:       "myblog",
 			Username: "root",
-			Password: "87654321",
+			Password: "12345678",
 		},
 	}
 }
 
 type Config struct {
-	MySQL *MySQL `json:"mysql"`
+	MySQL *MySQL `json:"mysql" toml:"mysql"`
+}
+
+func (c *Config) String() string {
+
+	jsonConfig, _ := json.Marshal(c)
+	return string(jsonConfig)
 }
 
 type MySQL struct {
-	Host     string `json:"host"`
-	Port     int    `json:"port"`
-	DB       string `json:"database"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Host     string `json:"host" toml:"host" env: "MYSQL_HOST"`
+	Port     int    `json:"port" toml:"port" env: "MYSQL_PORT"`
+	DB       string `json:"database" toml:"database" env: "MYSQL_DB"`
+	Username string `json:"username" toml:"username" env: "MYSQL_USERNAME"`
+	Password string `json:"password" toml:"password" env: "MYSQL_PASSWORD"`
 
 	lock sync.Mutex
 	conn *gorm.DB

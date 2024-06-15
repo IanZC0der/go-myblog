@@ -27,6 +27,7 @@ func (u *UserServiceImpl) CreateUser(
 	*user.CreateUserRequest) (*user.User, error) {
 
 	// validate the params
+
 	// create the user entity
 	// save to the db
 	// return the user entity

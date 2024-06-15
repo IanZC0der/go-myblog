@@ -6,6 +6,7 @@ import (
 
 	"github.com/IanZC0der/go-myblog/apps/user"
 	"github.com/IanZC0der/go-myblog/apps/user/impl"
+	"github.com/IanZC0der/go-myblog/test"
 )
 
 var (
@@ -14,7 +15,7 @@ var (
 )
 
 func init() {
-	userSvc = &impl.UserServiceImpl{}
+	userSvc = impl.NewUserServiceImpl()
 }
 
 func TestCreateUser(t *testing.T) {
@@ -35,4 +36,9 @@ func TestDeleteUser(t *testing.T) {
 	}
 
 	// t.Log(u)
+}
+
+func init() {
+	test.DevelopmentSetup()
+	userSvc = impl.NewUserServiceImpl()
 }

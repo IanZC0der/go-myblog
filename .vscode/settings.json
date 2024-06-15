@@ -1,0 +1,7 @@
+{
+  "go.testEnvFile": "${workspaceFolder}/etc/unit_test.env",
+  "go.testEnvVars": {
+    "MYSQL_HOST": "127.0.0.1",
+    "MYSQL_PORT": 330690
+  },
+}
