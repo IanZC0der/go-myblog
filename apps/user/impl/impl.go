@@ -23,19 +23,28 @@ func NewUserServiceImpl() *UserServiceImpl {
 }
 
 func (u *UserServiceImpl) CreateUser(
-	context.Context,
-	*user.CreateUserRequest) (*user.User, error) {
+	ctx context.Context,
+	req *user.CreateUserRequest) (*user.User, error) {
 
 	// validate the params
 
+	if err := req.Validate(); err != nil {
+		return nil, err
+	}
+
 	// create the user entity
+
+	newUser := user.NewUser(req)
 	// save to the db
+	if err := u.db.WithContext(ctx).Create(newUser).Error; err != nil {
+		return nil, err
+	}
 	// return the user entity
-	return nil, nil
+	return newUser, nil
 }
 
 func (u *UserServiceImpl) DeleteUser(
-	context.Context,
-	*user.DeleteUserRequest) error {
+	ctx context.Context,
+	req *user.DeleteUserRequest) error {
 	return nil
 }

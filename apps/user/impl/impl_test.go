@@ -14,12 +14,15 @@ var (
 	ctx     = context.Background()
 )
 
-func init() {
-	userSvc = impl.NewUserServiceImpl()
-}
+// func init() {
+// 	userSvc = impl.NewUserServiceImpl()
+// }
 
 func TestCreateUser(t *testing.T) {
-	u, err := userSvc.CreateUser(ctx, &user.CreateUserRequest{})
+	req := user.NewCreateUserRequest()
+	req.Username = "testuser"
+	req.Password = "testpassword"
+	u, err := userSvc.CreateUser(ctx, req)
 
 	if err != nil {
 		t.Fatal(err)
