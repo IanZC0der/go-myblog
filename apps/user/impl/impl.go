@@ -46,5 +46,7 @@ func (u *UserServiceImpl) CreateUser(
 func (u *UserServiceImpl) DeleteUser(
 	ctx context.Context,
 	req *user.DeleteUserRequest) error {
-	return nil
+
+	err := u.db.WithContext(ctx).Where("id = ?", req.Id).Delete(&user.User{}).Error
+	return err
 }

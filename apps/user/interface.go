@@ -2,7 +2,10 @@ package user
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Service interface {
@@ -15,6 +18,7 @@ type CreateUserRequest struct {
 	Password string            `json:"password" gorm:"column:password"`
 	Role     Role              `json:"role"`
 	Label    map[string]string `json:"label" gorm:"serializer:json"`
+	isHashed bool
 }
 
 func NewCreateUserRequest() *CreateUserRequest {
@@ -29,6 +33,17 @@ func (req *CreateUserRequest) Validate() error {
 		return fmt.Errorf("Empty username/password")
 	}
 	return nil
+}
+
+func (req *CreateUserRequest) PasswordHash() {
+	if req.isHashed {
+		return
+	}
+	b, _ := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+
+	req.Password = base64.StdEncoding.EncodeToString(b)
+
+	req.isHashed = true
 }
 
 type DeleteUserRequest struct {
