@@ -16,10 +16,3 @@ type CreateUserRequest struct {
 type DeleteUserRequest struct {
 	Id int64 `json:"id"`
 }
-
-type Role int
-
-const (
-	ROLE_MEMBER Role = iota
-	ROLE_ADMIN
-)
