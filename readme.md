@@ -2,7 +2,7 @@
 
 ## Functionality
 
-This app should support markdown
+markdown blog
 
 ## Prototype
 
