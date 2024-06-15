@@ -3,6 +3,8 @@ package user
 import (
 	"encoding/json"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 // User represents the user entity
@@ -28,4 +30,8 @@ func (u *User) String() string {
 
 func (u *User) TableName() string {
 	return "users"
+}
+
+func (u *User) ValidatePassword(password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 }

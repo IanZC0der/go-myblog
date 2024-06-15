@@ -49,4 +49,24 @@ func (u *UserServiceImpl) DeleteUser(
 
 	err := u.db.WithContext(ctx).Where("id = ?", req.Id).Delete(&user.User{}).Error
 	return err
+
+}
+
+func (u *UserServiceImpl) QueryUser(
+	ctx context.Context,
+	req *user.QueryUserRequest) (*user.User, error) {
+	// query the user from the db
+
+	query := u.db.WithContext(ctx)
+	switch req.Queryby {
+	case user.QUERY_BY_ID:
+		query = query.Where("id = ?", req.QueryValue)
+	case user.QUERY_BY_USERNAME:
+		query = query.Where("username = ?", req.QueryValue)
+	}
+	newUser := user.NewUser(user.NewCreateUserRequest())
+	if err := query.First(newUser).Error; err != nil {
+		return nil, err
+	}
+	return newUser, nil
 }

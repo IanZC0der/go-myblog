@@ -11,6 +11,26 @@ import (
 type Service interface {
 	CreateUser(context.Context, *CreateUserRequest) (*User, error)
 	DeleteUser(context.Context, *DeleteUserRequest) error
+	QueryUser(context.Context, *QueryUserRequest) (*User, error)
+}
+
+type QueryUserRequest struct {
+	Queryby    QueryBy `json:"query_by"`
+	QueryValue string  `json:"query_value"`
+}
+
+func NewQueryUserRequestById(id string) *QueryUserRequest {
+	return &QueryUserRequest{
+		Queryby:    QUERY_BY_ID,
+		QueryValue: id,
+	}
+}
+
+func NewQueryUserRequestByUsername(username string) *QueryUserRequest {
+	return &QueryUserRequest{
+		Queryby:    QUERY_BY_USERNAME,
+		QueryValue: username,
+	}
 }
 
 type CreateUserRequest struct {
@@ -18,13 +38,14 @@ type CreateUserRequest struct {
 	Password string            `json:"password" gorm:"column:password"`
 	Role     Role              `json:"role"`
 	Label    map[string]string `json:"label" gorm:"serializer:json"`
-	isHashed bool
+	IsHashed bool              `json: "is_hashed", gorm:"column:is_hashed"`
 }
 
 func NewCreateUserRequest() *CreateUserRequest {
 	return &CreateUserRequest{
-		Role:  ROLE_MEMBER,
-		Label: map[string]string{},
+		Role:     ROLE_MEMBER,
+		Label:    map[string]string{},
+		IsHashed: false,
 	}
 }
 
@@ -36,14 +57,14 @@ func (req *CreateUserRequest) Validate() error {
 }
 
 func (req *CreateUserRequest) PasswordHash() {
-	if req.isHashed {
+	if req.IsHashed {
 		return
 	}
 	b, _ := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 
 	req.Password = base64.StdEncoding.EncodeToString(b)
 
-	req.isHashed = true
+	req.IsHashed = true
 }
 
 type DeleteUserRequest struct {

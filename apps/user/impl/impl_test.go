@@ -33,7 +33,7 @@ func TestCreateUser(t *testing.T) {
 
 func TestDeleteUser(t *testing.T) {
 	err := userSvc.DeleteUser(ctx, &user.DeleteUserRequest{
-		Id: 1,
+		Id: 2,
 	})
 
 	if err != nil {
@@ -41,6 +41,29 @@ func TestDeleteUser(t *testing.T) {
 	}
 
 	// t.Log(u)
+}
+
+func TestQueryUser(t *testing.T) {
+	u, err := userSvc.QueryUser(ctx, user.NewQueryUserRequestById("3"))
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(u)
+
+}
+
+func TestQueryUserByUsername(t *testing.T) {
+
+	u, err := userSvc.QueryUser(ctx, user.NewQueryUserRequestByUsername("testuser"))
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(u)
+
 }
 
 func init() {
