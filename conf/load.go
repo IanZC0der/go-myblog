@@ -3,15 +3,10 @@ package conf
 import "github.com/BurntSushi/toml"
 
 var (
-	config *Config
+	config *Config = DefaultConfig()
 )
 
 func C() *Config {
-	if config == nil {
-
-		panic("load the config first")
-
-	}
 	return config
 }
 
