@@ -58,6 +58,17 @@ func (t *TokenServiceImpl) Logout(ctx context.Context, req *token.LogoutRequest)
 	return nil
 }
 
-func (t *TokenServiceImpl) ValidateToken(ctx context.Context, req *token.ValidateToken) error {
-	return nil
+func (t *TokenServiceImpl) ValidateToken(ctx context.Context, req *token.ValidateToken) (*token.Token, error) {
+
+	// query the token from the db
+	tk := token.NewToken()
+	if err := t.db.WithContext(ctx).Where("access_token = ?", req.AccessToken).First(tk).Error; err != nil {
+		return nil, err
+	}
+	// validate the token
+	if err := tk.IsExpired(); err != nil {
+		return nil, err
+	}
+
+	return tk, nil
 }

@@ -6,7 +6,7 @@ type Service interface {
 	Login(context.Context, *LoginRequest) (*Token, error) // return the token
 	Logout(context.Context, *LogoutRequest) error         // delete the token
 
-	ValidateToken(context.Context, *ValidateToken) error // validate the token
+	ValidateToken(context.Context, *ValidateToken) (*Token, error) // validate the token
 }
 
 type LoginRequest struct {

@@ -3,7 +3,10 @@ package token
 import (
 	"time"
 
+	"github.com/IanZC0der/go-myblog/exception"
 	"github.com/rs/xid"
+
+	"encoding/json"
 )
 
 type Token struct {
@@ -29,4 +32,25 @@ func NewToken() *Token {
 
 func (t *Token) TableName() string {
 	return "tokens"
+}
+
+func (t *Token) ExpiresAt() time.Time {
+	return time.Unix(t.CreatedAt, 0).Add(time.Duration(t.AccessTokenExpiresAt) * time.Second)
+}
+
+func (t *Token) IsExpired() error {
+	duration := time.Since(t.ExpiresAt()).Seconds()
+
+	if duration > 0 {
+
+		return exception.NewTokenExpired("Token %s expired %f seconds", t.AccessToken, duration)
+	}
+
+	return nil
+
+}
+
+func (t *Token) String() string {
+	jsonToken, _ := json.Marshal(t)
+	return string(jsonToken)
 }

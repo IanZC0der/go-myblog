@@ -37,3 +37,18 @@ func TestLogin(t *testing.T) {
 	t.Log(tk)
 
 }
+
+func TestValidateToken(t *testing.T) {
+	req := &token.ValidateToken{
+		AccessToken: "cpn3jbiclaaljs6rmt50",
+	}
+
+	tk, err := tokenSvc.ValidateToken(ctx, req)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(tk)
+
+}
