@@ -5,6 +5,7 @@ import (
 
 	"github.com/IanZC0der/go-myblog/apps/user"
 	"github.com/IanZC0der/go-myblog/conf"
+	"github.com/IanZC0der/go-myblog/exception"
 
 	"gorm.io/gorm"
 )
@@ -66,6 +67,10 @@ func (u *UserServiceImpl) QueryUser(
 	}
 	newUser := user.NewUser(user.NewCreateUserRequest())
 	if err := query.First(newUser).Error; err != nil {
+
+		if err == gorm.ErrRecordNotFound {
+			return nil, exception.NewNotFound("user %s not found", req.QueryValue)
+		}
 		return nil, err
 	}
 	return newUser, nil
