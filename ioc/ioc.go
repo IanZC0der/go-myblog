@@ -1,5 +1,7 @@
 package ioc
 
+import "github.com/gin-gonic/gin"
+
 var controllerIocContainer = &IocContainer{
 	store: map[string]IocObject{},
 }
@@ -28,4 +30,16 @@ func (c *IocContainer) Register(obj IocObject) {
 
 func (c *IocContainer) Get(name string) IocObject {
 	return c.store[name]
+}
+
+type GinApiHandler interface {
+	Registry(gin.IRouter)
+}
+
+func (c *IocContainer) RouterRegistry(router gin.IRouter) {
+	for _, obj := range c.store {
+		if apiHandler, ok := obj.(GinApiHandler); ok {
+			apiHandler.Registry(router)
+		}
+	}
 }

@@ -4,19 +4,37 @@ import (
 	// "net/http"
 
 	"github.com/IanZC0der/go-myblog/apps/token"
+	// "github.com/IanZC0der/go-myblog/apps/token/api"
 	"github.com/IanZC0der/go-myblog/ioc"
 	"github.com/IanZC0der/go-myblog/response"
 	"github.com/gin-gonic/gin"
 )
 
+// const (
+// 	AppName = "tokenapi"
+// )
+
 type TokenApiHandler struct {
 	svc token.Service
+}
+
+func init() {
+	ioc.DefaultApiHandlerContainer().Register(&TokenApiHandler{})
 }
 
 func NewTokenApiHandler() *TokenApiHandler {
 	return &TokenApiHandler{
 		svc: ioc.DefaultControllerContainer().Get(token.AppName).(token.Service),
 	}
+}
+
+func (h *TokenApiHandler) Init() error {
+	h.svc = ioc.DefaultControllerContainer().Get(token.AppName).(token.Service)
+	return nil
+}
+
+func (h *TokenApiHandler) Name() string {
+	return token.AppName
 }
 
 func (h *TokenApiHandler) Registry(router gin.IRouter) {

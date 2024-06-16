@@ -7,7 +7,8 @@ import (
 	_ "github.com/IanZC0der/go-myblog/apps"
 	"github.com/IanZC0der/go-myblog/ioc"
 
-	tokenAPIHandler "github.com/IanZC0der/go-myblog/apps/token/api"
+	// "github.com/IanZC0der/go-myblog/apps/token"
+	// tokenAPIHandler "github.com/IanZC0der/go-myblog/apps/token/api"
 	// tokenImpl "github.com/IanZC0der/go-myblog/apps/token/impl"
 	// userImpl "github.com/IanZC0der/go-myblog/apps/user/impl"
 	"github.com/IanZC0der/go-myblog/conf"
@@ -29,13 +30,19 @@ func main() {
 
 	if err := ioc.DefaultControllerContainer().Init(); err != nil {
 		fmt.Println(err)
+		os.Exit(1)
 	}
 
-	tokenApiHandler := tokenAPIHandler.NewTokenApiHandler()
+	if err := ioc.DefaultApiHandlerContainer().Init(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	// tokenApiHandler := ioc.ApiHandlerIocContainer.Get(token.AppName)
 
 	r := gin.Default()
 
-	tokenApiHandler.Registry(r.Group("/api/myblog"))
+	ioc.DefaultApiHandlerContainer().RouterRegistry(r.Group("/api/myblog"))
 
 	// start http server, register router
 
