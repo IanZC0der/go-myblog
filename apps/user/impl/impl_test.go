@@ -33,7 +33,7 @@ func TestCreateUser(t *testing.T) {
 
 func TestDeleteUser(t *testing.T) {
 	err := userSvc.DeleteUser(ctx, &user.DeleteUserRequest{
-		Id: 2,
+		Id: 3,
 	})
 
 	if err != nil {
