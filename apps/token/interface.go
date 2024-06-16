@@ -14,6 +14,10 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+func NewLoginRequest() *LoginRequest {
+	return &LoginRequest{}
+}
+
 type LogoutRequest struct {
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`

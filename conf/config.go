@@ -21,11 +21,27 @@ func DefaultConfig() *Config {
 			Username: "root",
 			Password: "12345678",
 		},
+
+		App: &App{
+			HttpHost: "127.0.0.1",
+			HttpPort: 7080,
+		},
 	}
 }
 
 type Config struct {
 	MySQL *MySQL `json:"mysql" toml:"mysql"`
+
+	App *App `json:"app" toml:"app"`
+}
+
+type App struct {
+	HttpHost string `json:"http_host" env:"HTTP_HOST"`
+	HttpPort int64  `json: "http_port", env:"HTTP_PORT"`
+}
+
+func (a *App) HttpAddress() string {
+	return fmt.Sprintf("%s:%d", a.HttpHost, a.HttpPort)
 }
 
 func (c *Config) String() string {
