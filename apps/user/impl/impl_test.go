@@ -5,12 +5,12 @@ import (
 	"testing"
 
 	"github.com/IanZC0der/go-myblog/apps/user"
-	"github.com/IanZC0der/go-myblog/apps/user/impl"
+	"github.com/IanZC0der/go-myblog/ioc"
 	"github.com/IanZC0der/go-myblog/test"
 )
 
 var (
-	userSvc *impl.UserServiceImpl
+	userSvc user.Service
 	ctx     = context.Background()
 )
 
@@ -68,5 +68,5 @@ func TestQueryUserByUsername(t *testing.T) {
 
 func init() {
 	test.DevelopmentSetup()
-	userSvc = impl.NewUserServiceImpl()
+	userSvc = ioc.DefaultControllerContainer().Get(user.AppName).(user.Service)
 }

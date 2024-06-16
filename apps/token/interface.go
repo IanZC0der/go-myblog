@@ -2,6 +2,10 @@ package token
 
 import "context"
 
+const (
+	AppName = "token"
+)
+
 type Service interface {
 	Login(context.Context, *LoginRequest) (*Token, error) // return the token
 	Logout(context.Context, *LogoutRequest) error         // delete the token

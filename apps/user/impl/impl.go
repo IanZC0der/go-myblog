@@ -6,9 +6,14 @@ import (
 	"github.com/IanZC0der/go-myblog/apps/user"
 	"github.com/IanZC0der/go-myblog/conf"
 	"github.com/IanZC0der/go-myblog/exception"
+	"github.com/IanZC0der/go-myblog/ioc"
 
 	"gorm.io/gorm"
 )
+
+func init() {
+	ioc.DefaultControllerContainer().Register(&UserServiceImpl{})
+}
 
 var _ user.Service = &UserServiceImpl{} // enforce interface implementation
 // var _ user.Service = (*UserServiceImpl)(nil) another way to enforce interface implementation
@@ -21,6 +26,15 @@ func NewUserServiceImpl() *UserServiceImpl {
 	return &UserServiceImpl{
 		db: conf.C().MySQL.GetConn(),
 	}
+}
+
+func (u *UserServiceImpl) Init() error {
+	u.db = conf.C().MySQL.GetConn()
+	return nil
+}
+
+func (u *UserServiceImpl) Name() string {
+	return user.AppName
 }
 
 func (u *UserServiceImpl) CreateUser(

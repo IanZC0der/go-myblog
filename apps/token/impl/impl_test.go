@@ -5,13 +5,12 @@ import (
 	"testing"
 
 	"github.com/IanZC0der/go-myblog/apps/token"
-	"github.com/IanZC0der/go-myblog/apps/token/impl"
-	userImpl "github.com/IanZC0der/go-myblog/apps/user/impl"
+	"github.com/IanZC0der/go-myblog/ioc"
 	"github.com/IanZC0der/go-myblog/test"
 )
 
 var (
-	tokenSvc *impl.TokenServiceImpl
+	tokenSvc token.Service
 	ctx      = context.Background()
 )
 
@@ -21,7 +20,7 @@ var (
 
 func init() {
 	test.DevelopmentSetup()
-	tokenSvc = impl.NewTokenServiceImpl(userImpl.NewUserServiceImpl())
+	tokenSvc = ioc.DefaultControllerContainer().Get(token.AppName).(token.Service)
 }
 
 func TestLogin(t *testing.T) {

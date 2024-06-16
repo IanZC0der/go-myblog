@@ -7,6 +7,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+const (
+	AppName = "user"
+)
+
 type Service interface {
 	CreateUser(context.Context, *CreateUserRequest) (*User, error)
 	DeleteUser(context.Context, *DeleteUserRequest) error
@@ -50,7 +54,7 @@ func NewCreateUserRequest() *CreateUserRequest {
 
 func (req *CreateUserRequest) Validate() error {
 	if req.Username == "" || req.Password == "" {
-		return fmt.Errorf("Empty username/password")
+		return fmt.Errorf("empty username/password")
 	}
 	return nil
 }

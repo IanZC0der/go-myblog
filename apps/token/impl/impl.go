@@ -7,6 +7,7 @@ import (
 	"github.com/IanZC0der/go-myblog/apps/user"
 	"github.com/IanZC0der/go-myblog/conf"
 	"github.com/IanZC0der/go-myblog/exception"
+	"github.com/IanZC0der/go-myblog/ioc"
 
 	"gorm.io/gorm"
 )
@@ -18,11 +19,25 @@ type TokenServiceImpl struct {
 	user user.Service
 }
 
-func NewTokenServiceImpl(userServiceImpl user.Service) *TokenServiceImpl {
+func init() {
+	ioc.DefaultControllerContainer().Register(&TokenServiceImpl{})
+}
+
+func NewTokenServiceImpl() *TokenServiceImpl {
 	return &TokenServiceImpl{
 		db:   conf.C().MySQL.GetConn(),
-		user: userServiceImpl,
+		user: ioc.DefaultControllerContainer().Get(user.AppName).(user.Service),
 	}
+}
+
+func (t *TokenServiceImpl) Init() error {
+	t.db = conf.C().MySQL.GetConn()
+	t.user = ioc.DefaultControllerContainer().Get(user.AppName).(user.Service)
+	return nil
+}
+
+func (t *TokenServiceImpl) Name() string {
+	return token.AppName
 }
 
 func (t *TokenServiceImpl) Login(ctx context.Context, req *token.LoginRequest) (*token.Token, error) {

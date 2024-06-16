@@ -1,9 +1,11 @@
 package api
 
 import (
-	"net/http"
+	// "net/http"
 
 	"github.com/IanZC0der/go-myblog/apps/token"
+	"github.com/IanZC0der/go-myblog/ioc"
+	"github.com/IanZC0der/go-myblog/response"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,9 +13,9 @@ type TokenApiHandler struct {
 	svc token.Service
 }
 
-func NewTokenApiHandler(tokenServiceImpl token.Service) *TokenApiHandler {
+func NewTokenApiHandler() *TokenApiHandler {
 	return &TokenApiHandler{
-		svc: tokenServiceImpl,
+		svc: ioc.DefaultControllerContainer().Get(token.AppName).(token.Service),
 	}
 }
 
@@ -30,18 +32,22 @@ func (h *TokenApiHandler) Login(c *gin.Context) {
 	err := c.BindJSON(newReq)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		// c.JSON(http.StatusBadRequest, err.Error())
+		response.Failed(c, err)
 		return
 	}
 	// login
 	tk, err := h.svc.Login(c.Request.Context(), newReq)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+
+		response.Failed(c, err)
+		// c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 	//return response
-	c.JSON(http.StatusOK, tk)
+	response.Success(c, tk)
+	// c.JSON(http.StatusOK, tk)
 
 }
 
