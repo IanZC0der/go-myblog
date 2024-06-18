@@ -37,7 +37,7 @@ type Config struct {
 
 type App struct {
 	HttpHost string `json:"http_host" env:"HTTP_HOST"`
-	HttpPort int64  `json: "http_port", env:"HTTP_PORT"`
+	HttpPort int64  `json:"http_port" env:"HTTP_PORT"`
 }
 
 func (a *App) HttpAddress() string {
@@ -51,11 +51,11 @@ func (c *Config) String() string {
 }
 
 type MySQL struct {
-	Host     string `json:"host" toml:"host" env: "MYSQL_HOST"`
-	Port     int    `json:"port" toml:"port" env: "MYSQL_PORT"`
-	DB       string `json:"database" toml:"database" env: "MYSQL_DB"`
-	Username string `json:"username" toml:"username" env: "MYSQL_USERNAME"`
-	Password string `json:"password" toml:"password" env: "MYSQL_PASSWORD"`
+	Host     string `json:"host" toml:"host" env:"MYSQL_HOST"`
+	Port     int    `json:"port" toml:"port" env:"MYSQL_PORT"`
+	DB       string `json:"database" toml:"database" env:"MYSQL_DB"`
+	Username string `json:"username" toml:"username" env:"MYSQL_USERNAME"`
+	Password string `json:"password" toml:"password" env:"MYSQL_PASSWORD"`
 
 	lock sync.Mutex
 	conn *gorm.DB

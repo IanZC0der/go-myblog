@@ -17,7 +17,7 @@ type Token struct {
 	RefreshToken          string `json:"refresh_token" gorm:"refresh_token"`
 	RefreshTokenExpiresAt int    `json:"refresh_token_expires_at" gorm:"refresh_token_expires_at"`
 	CreatedAt             int64  `json:"created_at" gorm:"created_at"`
-	UpdatedAt             int64  `json:"updated_at" gorm:"updated_at`
+	UpdatedAt             int64  `json:"updated_at" gorm:"updated_at"`
 }
 
 func NewToken() *Token {

@@ -41,7 +41,7 @@ type CreateUserRequest struct {
 	Password string            `json:"password" gorm:"column:password"`
 	Role     Role              `json:"role"`
 	Label    map[string]string `json:"label" gorm:"serializer:json"`
-	IsHashed bool              `json: "is_hashed", gorm:"column:is_hashed"`
+	IsHashed bool              `json:"is_hashed" gorm:"column:is_hashed"`
 }
 
 func NewCreateUserRequest() *CreateUserRequest {
