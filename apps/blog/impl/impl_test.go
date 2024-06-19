@@ -74,10 +74,11 @@ func TestQuerySingleBlog(t *testing.T) {
 func TestUpdateBlog(t *testing.T) {
 	newReq := blog.NewUpdateBlogRequest("1")
 
-	newReq.Abstract = "New Abstact"
-	newReq.Content = "New Content"
-	newReq.Title = "New Title"
+	newReq.Abstract = "New Abstact 3"
+	newReq.Content = "New Content 3"
+	newReq.Title = "New Title 3"
 	newReq.Author = "testuser"
+	newReq.UpdateMode = blog.UPDATE_MODE_PATCH
 
 	updatedBlog, err := blogSvc.UpdateBlog(ctx, newReq)
 
