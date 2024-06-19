@@ -49,8 +49,28 @@ func (b *blogServiceImpl) CreateBlog(ctx context.Context, req *blog.CreateBlogRe
 }
 
 func (b *blogServiceImpl) UpdateBlogStatus(ctx context.Context, req *blog.UpdateBlogStatusRequest) (*blog.Blog, error) {
+	newReq := blog.NewQuerySingleBlogRequest(req.BlogId)
+	blogToBeUpdated, err := b.QuerySingleBlog(ctx, newReq)
 
-	return nil, nil
+	if err != nil {
+		return nil, err
+	}
+
+	blogToBeUpdated.Status = req.Status
+
+	if blogToBeUpdated.Status == blog.DRAFT {
+		blogToBeUpdated.PublishedAt = 0
+	} else if blogToBeUpdated.Status == blog.PUBLISHED {
+		blogToBeUpdated.PublishedAt = time.Now().Unix()
+	}
+
+	err = b.db.WithContext(ctx).Model(&blogToBeUpdated).Updates(map[string]interface{}{"status": req.Status, "published_at": blogToBeUpdated.PublishedAt}).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return blogToBeUpdated, nil
 }
 
 func (b *blogServiceImpl) UpdateBlog(ctx context.Context, req *blog.UpdateBlogRequest) (*blog.Blog, error) {

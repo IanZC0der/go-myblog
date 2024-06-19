@@ -72,9 +72,16 @@ func (req *QueryBlogRequest) Offset() int {
 }
 
 type UpdateBlogStatusRequest struct {
-	BlogId int64 `json:"blog_id"`
+	BlogId string `json:"blog_id"`
 
 	Status Status `json:"status"`
+}
+
+func NewUpdateBlogStatusRequest(id string) *UpdateBlogStatusRequest {
+	return &UpdateBlogStatusRequest{
+		BlogId: id,
+		Status: PUBLISHED,
+	}
 }
 
 type UpdateBlogRequest struct {

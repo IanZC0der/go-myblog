@@ -98,3 +98,16 @@ func TestDeleteBlog(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestUpdateStatus(t *testing.T) {
+	newReq := blog.NewUpdateBlogStatusRequest("1")
+
+	updatedBlog, err := blogSvc.UpdateBlogStatus(ctx, newReq)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(updatedBlog)
+
+}
