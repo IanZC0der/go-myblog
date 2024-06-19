@@ -2,7 +2,10 @@ package impl
 
 import (
 	"context"
+	"fmt"
+	"time"
 
+	"dario.cat/mergo"
 	"github.com/IanZC0der/go-myblog/apps/blog"
 	"github.com/IanZC0der/go-myblog/conf"
 	"github.com/IanZC0der/go-myblog/exception"
@@ -50,7 +53,33 @@ func (b *blogServiceImpl) UpdateBlogStatus(ctx context.Context, req *blog.Update
 }
 
 func (b *blogServiceImpl) UpdateBlog(ctx context.Context, req *blog.UpdateBlogRequest) (*blog.Blog, error) {
-	return nil, nil
+	newReq := blog.NewQuerySingleBlogRequest(req.BlogId)
+	blogToBeUpdated, err := b.QuerySingleBlog(ctx, newReq)
+
+	if err != nil {
+		return nil, err
+	}
+
+	switch req.UpdateMode {
+	case blog.UPDATE_MODE_PUT:
+		blogToBeUpdated.CreateBlogRequest = req.CreateBlogRequest
+	case blog.UPDATE_MODE_PATCH:
+		err := mergo.Merge(blogToBeUpdated.CreateBlogRequest, req.CreateBlogRequest,
+			mergo.WithOverride)
+		if err != nil {
+			return nil, err
+		}
+	default:
+		return nil, fmt.Errorf("invalid update mode: %d", req.UpdateMode)
+	}
+
+	blogToBeUpdated.UpdatedAt = time.Now().Unix()
+	err = b.db.WithContext(ctx).Where("id = ?", req.BlogId).Updates(blogToBeUpdated).Error
+
+	if err != nil {
+		return nil, err
+	}
+	return blogToBeUpdated, nil
 }
 
 func (b *blogServiceImpl) DeleteBlog(ctx context.Context, req *blog.DeleteBlogRequest) error {

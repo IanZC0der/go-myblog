@@ -78,9 +78,18 @@ type UpdateBlogStatusRequest struct {
 }
 
 type UpdateBlogRequest struct {
-	BlogId     int64      `json:"blog_id"`
+	BlogId     string     `json:"blog_id"`
 	UpdateMode UpdateMode `json:"update_mode"`
 	*CreateBlogRequest
+}
+
+func NewUpdateBlogRequest(id string) *UpdateBlogRequest {
+	return &UpdateBlogRequest{
+		BlogId:     id,
+		UpdateMode: UPDATE_MODE_PUT,
+
+		CreateBlogRequest: NewCreateBlogRequest(),
+	}
 }
 
 type DeleteBlogRequest struct {

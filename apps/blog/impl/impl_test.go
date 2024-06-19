@@ -70,3 +70,19 @@ func TestQuerySingleBlog(t *testing.T) {
 
 	t.Log(oneBlog)
 }
+
+func TestUpdateBlog(t *testing.T) {
+	newReq := blog.NewUpdateBlogRequest("1")
+
+	newReq.Abstract = "New Abstact"
+	newReq.Content = "New Content"
+	newReq.Title = "New Title"
+	newReq.Author = "testuser"
+
+	updatedBlog, err := blogSvc.UpdateBlog(ctx, newReq)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(updatedBlog)
+}
