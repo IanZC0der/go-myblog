@@ -1,6 +1,7 @@
 package test
 
 import (
+	mqconfig "github.com/IanZC0der/go-myblog/apps/mq"
 	"github.com/IanZC0der/go-myblog/conf"
 	"github.com/IanZC0der/go-myblog/ioc"
 
@@ -12,6 +13,12 @@ import (
 func DevelopmentSetup() {
 	// err := conf.LoadConfigFromToml("test/config.toml")
 	err := conf.LoadConfigFromEnv()
+
+	if err != nil {
+		panic(err)
+	}
+
+	err = mqconfig.LoadMQConfigFromENV()
 
 	if err != nil {
 		panic(err)
