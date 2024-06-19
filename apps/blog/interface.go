@@ -1,6 +1,9 @@
 package blog
 
-import "context"
+import (
+	"context"
+	"strconv"
+)
 
 const (
 	AppName = "blog"
@@ -71,6 +74,28 @@ func (req *QueryBlogRequest) Offset() int {
 	return int(req.PageSize * (req.PageNumber - 1))
 }
 
+func (req *QueryBlogRequest) ParsePageSize(pageSize string) error {
+	pageSizeInt, err := strconv.ParseInt(pageSize, 10, 64)
+
+	if err != nil {
+		return err
+	}
+
+	req.PageSize = int(pageSizeInt)
+	return nil
+}
+
+func (req *QueryBlogRequest) ParsePageNumber(pageNumber string) error {
+	pageNumberInt, err := strconv.ParseInt(pageNumber, 10, 64)
+
+	if err != nil {
+		return err
+	}
+
+	req.PageNumber = int(pageNumberInt)
+	return nil
+}
+
 type UpdateBlogStatusRequest struct {
 	BlogId string `json:"blog_id"`
 
@@ -90,6 +115,10 @@ type UpdateBlogRequest struct {
 	*CreateBlogRequest
 }
 
+func (req *UpdateBlogRequest) SetUpdateBlogRequestUpdateMode(updateMode UpdateMode) {
+	req.UpdateMode = updateMode
+}
+
 func NewUpdateBlogRequest(id string) *UpdateBlogRequest {
 	return &UpdateBlogRequest{
 		BlogId:     id,
@@ -105,4 +134,15 @@ type DeleteBlogRequest struct {
 
 func NewDeleteBlogRequest() *DeleteBlogRequest {
 	return &DeleteBlogRequest{}
+}
+
+func (req *DeleteBlogRequest) SetBlogId(id string) error {
+	idInt, err := strconv.ParseInt(id, 10, 64)
+
+	if err != nil {
+		return err
+	}
+
+	req.BlogId = idInt
+	return nil
 }
