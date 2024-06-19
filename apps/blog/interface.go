@@ -15,6 +15,60 @@ type Service interface {
 	UpdateBlog(context.Context, *UpdateBlogRequest) (*Blog, error)
 
 	DeleteBlog(context.Context, *DeleteBlogRequest) error
+
+	QueryBlog(context.Context, *QueryBlogRequest) (*BlogList, error)
+
+	QuerySingleBlog(context.Context, *QuerySingleBlogRequest) (*Blog, error)
+}
+
+type BlogList struct {
+	Items []*Blog `json:"items"`
+	Total int64   `json:"total"`
+}
+
+func NewBlogList() *BlogList {
+	return &BlogList{
+		Items: []*Blog{},
+	}
+}
+
+func (bl *BlogList) Add(items ...*Blog) {
+	bl.Items = append(bl.Items, items...)
+}
+
+type QueryBlogRequest struct {
+	PageSize int `json:"page_size"`
+
+	PageNumber int `json:"page_number"`
+	// nil: no filter condition
+	// 0: filter condition is DRAFT
+	// 1: filter condition is PUBLISHED
+	Status *Status `json:""`
+}
+
+type QuerySingleBlogRequest struct {
+	BlogId string `json:"blog_id"`
+}
+
+func NewQuerySingleBlogRequest(id string) *QuerySingleBlogRequest {
+	return &QuerySingleBlogRequest{
+		BlogId: id,
+	}
+}
+
+func NewQueryBlogRequest() *QueryBlogRequest {
+	return &QueryBlogRequest{
+		PageSize:   5,
+		PageNumber: 1,
+	}
+}
+
+func (req *QueryBlogRequest) SetStatus(s Status) {
+	req.Status = &s
+}
+
+func (req *QueryBlogRequest) Offset() int {
+	return int(req.PageSize * (req.PageNumber - 1))
 }
 
 type UpdateBlogStatusRequest struct {

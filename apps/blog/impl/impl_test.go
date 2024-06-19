@@ -45,3 +45,28 @@ func TestGetWorkingPwd(t *testing.T) {
 	}
 	t.Log(dir)
 }
+
+func TestQueryBlogs(t *testing.T) {
+	newReq := blog.NewQueryBlogRequest()
+	newReq.SetStatus(blog.PUBLISHED)
+	blogs, err := blogSvc.QueryBlog(ctx, newReq)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(blogs)
+}
+
+func TestQuerySingleBlog(t *testing.T) {
+	// blog.NewCreateBlogRequest()
+	newReq := blog.NewQuerySingleBlogRequest("1")
+
+	oneBlog, err := blogSvc.QuerySingleBlog(ctx, newReq)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(oneBlog)
+}
