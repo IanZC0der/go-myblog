@@ -1,10 +1,18 @@
 package api
 
 import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"log"
+
 	"github.com/IanZC0der/go-myblog/apps/blog"
+	mq "github.com/IanZC0der/go-myblog/apps/mq"
+	mqimpl "github.com/IanZC0der/go-myblog/apps/mq/impl"
 	"github.com/IanZC0der/go-myblog/ioc"
 	"github.com/IanZC0der/go-myblog/response"
 	"github.com/gin-gonic/gin"
+	// "encoding/json"
 )
 
 type BlogApiHandler struct {
@@ -17,6 +25,7 @@ func init() {
 
 func (b *BlogApiHandler) Init() error {
 	b.svc = ioc.DefaultControllerContainer().Get(blog.AppName).(blog.Service)
+	b.ConsumeCreateBlog()
 	return nil
 }
 
@@ -28,7 +37,8 @@ func (b *BlogApiHandler) Registry(router gin.IRouter) {
 
 	// we need api for creating blog, updating blog, querying blog(s), u
 	v1 := router.Group("v1").Group("blogs")
-	v1.POST("/", b.CreateBlog)
+	v1.POST("/", b.CreateBlogWithMQ)
+	// v1.POST("/", b.CreateBlog)
 	v1.DELETE("/:id", b.DeleteOneBlog)
 	v1.PUT("/:id", b.UpdateBlogAll)
 	v1.PATCH("/:id", b.UpdateBlogPartial)
@@ -59,6 +69,66 @@ func (b *BlogApiHandler) CreateBlog(c *gin.Context) {
 	response.Success(c, newBlog)
 	// c.JSON(http.StatusOK, tk)
 
+}
+
+func (b *BlogApiHandler) CreateBlogWithMQ(c *gin.Context) {
+	newReq := blog.NewCreateBlogRequest()
+	err := c.BindJSON(newReq)
+
+	if err != nil {
+		// c.JSON(http.StatusBadRequest, err.Error())
+		response.Failed(c, err)
+		return
+	}
+
+	resultChan := make(chan interface{}, 1)
+	defer close(resultChan)
+
+	err = mqimpl.GetMQClient().Publish(c, mq.CREATE_BLOG_QUEUE, newReq, resultChan)
+
+	// newBlog, err := b.svc.CreateBlog(c.Request.Context(), newReq)
+	if err != nil {
+
+		response.Failed(c, err)
+		// c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	createdBlog := <-resultChan
+	if createdBlog == nil {
+		response.Failed(c, fmt.Errorf("failed to create blog"))
+		return
+	}
+	response.Success(c, createdBlog)
+
+}
+
+func (b *BlogApiHandler) ConsumeCreateBlog() {
+	msgs, err := mqimpl.GetMQClient().Consumer(mq.CREATE_BLOG_QUEUE)
+	if err != nil {
+		log.Fatalf("Failed to register a consumer: %v", err)
+	}
+
+	go func() {
+		for d := range msgs {
+			var req blog.CreateBlogRequest
+			err := json.Unmarshal(d.Body, &req)
+			if err != nil {
+				log.Printf("Error decoding JSON: %v", err)
+				continue
+			}
+
+			createdBlog, err := b.svc.CreateBlog(context.Background(), &req)
+			if err != nil {
+				log.Printf("Failed to create blog: %v", err)
+				continue
+			}
+
+			// Retrieve the result channel and send the created blog
+			resultChan := mqimpl.GetMQClient().RetrieveResultChannel(mq.CREATE_BLOG_QUEUE)
+			resultChan <- createdBlog
+		}
+	}()
 }
 
 func (b *BlogApiHandler) UpdateBlogAll(c *gin.Context) {

@@ -145,3 +145,5 @@ func (b *blogServiceImpl) QuerySingleBlog(ctx context.Context, req *blog.QuerySi
 	return oneBlog, nil
 
 }
+
+// func ConsumeMessages()
