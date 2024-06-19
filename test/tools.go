@@ -10,7 +10,7 @@ import (
 // configs and utils for testing
 
 func DevelopmentSetup() {
-	// err := conf.LoadConfigFromToml("./test/config.toml")
+	// err := conf.LoadConfigFromToml("test/config.toml")
 	err := conf.LoadConfigFromEnv()
 
 	if err != nil {

@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"os"
+
 	"github.com/IanZC0der/go-myblog/apps/blog"
 	"github.com/IanZC0der/go-myblog/ioc"
 	"github.com/IanZC0der/go-myblog/test"
@@ -34,4 +36,12 @@ func TestCreateBlog(t *testing.T) {
 	}
 
 	t.Log(b)
+}
+
+func TestGetWorkingPwd(t *testing.T) {
+	dir, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(dir)
 }

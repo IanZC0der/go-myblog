@@ -1,6 +1,7 @@
 package blog
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -44,6 +45,11 @@ type Blog struct {
 
 func (b *Blog) TableName() string {
 	return "blogs"
+}
+
+func (b *Blog) String() string {
+	jsonUser, _ := json.Marshal(b)
+	return string(jsonUser)
 }
 
 func NewBlog(req *CreateBlogRequest) *Blog {
