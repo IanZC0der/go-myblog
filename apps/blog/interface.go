@@ -95,3 +95,7 @@ func NewUpdateBlogRequest(id string) *UpdateBlogRequest {
 type DeleteBlogRequest struct {
 	BlogId int64 `json:"blog_id"`
 }
+
+func NewDeleteBlogRequest() *DeleteBlogRequest {
+	return &DeleteBlogRequest{}
+}

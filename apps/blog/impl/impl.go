@@ -49,6 +49,7 @@ func (b *blogServiceImpl) CreateBlog(ctx context.Context, req *blog.CreateBlogRe
 }
 
 func (b *blogServiceImpl) UpdateBlogStatus(ctx context.Context, req *blog.UpdateBlogStatusRequest) (*blog.Blog, error) {
+
 	return nil, nil
 }
 
@@ -83,7 +84,8 @@ func (b *blogServiceImpl) UpdateBlog(ctx context.Context, req *blog.UpdateBlogRe
 }
 
 func (b *blogServiceImpl) DeleteBlog(ctx context.Context, req *blog.DeleteBlogRequest) error {
-	return nil
+	err := b.db.WithContext(ctx).Where("id = ?", req.BlogId).Delete(&blog.Blog{}).Error
+	return err
 }
 
 func (b *blogServiceImpl) QueryBlog(ctx context.Context, req *blog.QueryBlogRequest) (*blog.BlogList, error) {

@@ -87,3 +87,14 @@ func TestUpdateBlog(t *testing.T) {
 	}
 	t.Log(updatedBlog)
 }
+
+func TestDeleteBlog(t *testing.T) {
+	newReq := blog.NewDeleteBlogRequest()
+	newReq.BlogId = 2
+
+	err := blogSvc.DeleteBlog(ctx, newReq)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+}
