@@ -147,3 +147,23 @@ func (b *blogServiceImpl) QuerySingleBlog(ctx context.Context, req *blog.QuerySi
 }
 
 // func ConsumeMessages()
+
+func (b *blogServiceImpl) AuditBlog(ctx context.Context, req *blog.AuditBlogRequest) (*blog.Blog, error) {
+	theBlog, err := b.QuerySingleBlog(ctx, blog.NewQuerySingleBlogRequest(req.BlogId))
+
+	if err != nil {
+		return nil, err
+	}
+
+	theBlog.AuditPassed = true
+	theBlog.AuditAt = time.Now().Unix()
+
+	err = b.db.WithContext(ctx).Where("id = ?", req.BlogId).Updates(theBlog).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return theBlog, nil
+
+}

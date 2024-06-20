@@ -7,6 +7,14 @@ const (
 	PUBLISHED
 )
 
+type Role int
+
+const (
+	AUTHOR Role = iota
+	AUDITOR
+	ADMIN
+)
+
 type UpdateMode int
 
 const (

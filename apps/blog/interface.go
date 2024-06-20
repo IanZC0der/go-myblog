@@ -22,6 +22,8 @@ type Service interface {
 	QueryBlog(context.Context, *QueryBlogRequest) (*BlogList, error)
 
 	QuerySingleBlog(context.Context, *QuerySingleBlogRequest) (*Blog, error)
+
+	AuditBlog(context.Context, *AuditBlogRequest) (*Blog, error)
 }
 
 type BlogList struct {
@@ -145,4 +147,9 @@ func (req *DeleteBlogRequest) SetBlogId(id string) error {
 
 	req.BlogId = idInt
 	return nil
+}
+
+type AuditBlogRequest struct {
+	BlogId      string `json:"blog_id"`
+	AuditPassed bool   `json:"audit_passed"`
 }

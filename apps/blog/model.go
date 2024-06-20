@@ -40,6 +40,9 @@ type Blog struct {
 
 	Status Status `json:"status" gorm:"status"`
 
+	AuditPassed bool  `json:"audit_passed" gorm:"audit_passed"`
+	AuditAt     int64 `json:"audit_at" gorm:"audit_at"`
+
 	*CreateBlogRequest
 }
 
