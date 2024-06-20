@@ -9,7 +9,9 @@ import (
 	"github.com/IanZC0der/go-myblog/apps/blog"
 	mq "github.com/IanZC0der/go-myblog/apps/mq"
 	mqimpl "github.com/IanZC0der/go-myblog/apps/mq/impl"
+	"github.com/IanZC0der/go-myblog/apps/token"
 	"github.com/IanZC0der/go-myblog/ioc"
+	"github.com/IanZC0der/go-myblog/middlewares"
 	"github.com/IanZC0der/go-myblog/response"
 	"github.com/gin-gonic/gin"
 	// "encoding/json"
@@ -37,18 +39,26 @@ func (b *BlogApiHandler) Registry(router gin.IRouter) {
 
 	// we need api for creating blog, updating blog, querying blog(s), u
 	v1 := router.Group("v1").Group("blogs")
+	// /myblog/api/v1/blogs
+	v1.GET("/", b.QueryBlogList)
+	// myblog/api/v1/blogs/:id
+	v1.GET("/:id", b.QueryOneBlog)
+
+	// added middleware for authorization
+	v1.Use(middlewares.NewAuthMiddleware().Auth)
 	v1.POST("/", b.CreateBlogWithMQ)
 	// v1.POST("/", b.CreateBlog)
 	v1.DELETE("/:id", b.DeleteOneBlog)
 	v1.PUT("/:id", b.UpdateBlogAll)
 	v1.PATCH("/:id", b.UpdateBlogPartial)
-	// /myblog/api/v1/blogs
-	v1.GET("/", b.QueryBlogList)
-	// myblog/api/v1/blogs/:id
-	v1.GET("/:id", b.QueryOneBlog)
+
 }
 
 func (b *BlogApiHandler) CreateBlog(c *gin.Context) {
+
+	tokenObject := c.Keys[token.TOKEN_GIN_KEY_IN_CONTEXT]
+	// fmt.Println(tokenObject.(*token.Token).UserId)
+	theToken := tokenObject.(*token.Token)
 	newReq := blog.NewCreateBlogRequest()
 	err := c.BindJSON(newReq)
 
@@ -57,6 +67,8 @@ func (b *BlogApiHandler) CreateBlog(c *gin.Context) {
 		response.Failed(c, err)
 		return
 	}
+	// get the author name
+	newReq.CreatedBy = theToken.UserName
 
 	newBlog, err := b.svc.CreateBlog(c.Request.Context(), newReq)
 	if err != nil {
@@ -72,6 +84,10 @@ func (b *BlogApiHandler) CreateBlog(c *gin.Context) {
 }
 
 func (b *BlogApiHandler) CreateBlogWithMQ(c *gin.Context) {
+
+	tokenObject := c.Keys[token.TOKEN_GIN_KEY_IN_CONTEXT]
+	// fmt.Println(tokenObject.(*token.Token).UserId)
+	theToken := tokenObject.(*token.Token)
 	newReq := blog.NewCreateBlogRequest()
 	err := c.BindJSON(newReq)
 
@@ -80,6 +96,8 @@ func (b *BlogApiHandler) CreateBlogWithMQ(c *gin.Context) {
 		response.Failed(c, err)
 		return
 	}
+	// get the author name
+	newReq.CreatedBy = theToken.UserName
 
 	resultChan := make(chan interface{}, 1)
 	defer close(resultChan)
@@ -185,6 +203,11 @@ func (b *BlogApiHandler) UpdateBlogPartial(c *gin.Context) {
 }
 
 func (b *BlogApiHandler) QueryBlogList(c *gin.Context) {
+
+	// get the token from the context
+
+	tokenObject := c.Keys[token.TOKEN_GIN_KEY_IN_CONTEXT]
+	fmt.Println(tokenObject.(*token.Token).UserId)
 	newReq := blog.NewQueryBlogRequest()
 	// err := c.BindJSON(newReq)
 	err := newReq.ParsePageSize(c.Query("page_size"))

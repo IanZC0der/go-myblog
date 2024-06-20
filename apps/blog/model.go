@@ -7,11 +7,12 @@ import (
 )
 
 type CreateBlogRequest struct {
-	Title    string            `json:"title" gorm:"title"`
-	Author   string            `json:"author" gorm:"author"`
-	Content  string            `json:"content" gorm:"content"`
-	Tags     map[string]string `json:"tags" gorm:"serializer:json"`
-	Abstract string            `json:"abstract"`
+	Title     string            `json:"title" gorm:"title"`
+	CreatedBy string            `json:"created_by" gorm:"created_by"`
+	Author    string            `json:"author" gorm:"author"`
+	Content   string            `json:"content" gorm:"content"`
+	Tags      map[string]string `json:"tags" gorm:"serializer:json"`
+	Abstract  string            `json:"abstract"`
 }
 
 func (req *CreateBlogRequest) Validate() error {
@@ -29,8 +30,7 @@ func NewCreateBlogRequest() *CreateBlogRequest {
 }
 
 type Blog struct {
-	Id        int64  `json:"id" gorm:"id"`
-	CreatedBy string `json:"created_by" gorm:"created_by"`
+	Id int64 `json:"id" gorm:"id"`
 
 	CreatedAt int64 `json:"created_at" gorm:"created_at"`
 
