@@ -123,6 +123,7 @@ func (b *BlogApiHandler) ConsumeCreateBlog() {
 				log.Printf("Failed to create blog: %v", err)
 				continue
 			}
+			d.Ack(false)
 
 			// Retrieve the result channel and send the created blog
 			resultChan := mqimpl.GetMQClient().RetrieveResultChannel(mq.CREATE_BLOG_QUEUE)

@@ -63,6 +63,7 @@ func (h *TokenApiHandler) Login(c *gin.Context) {
 		// c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
+	c.SetCookie(token.TOKEN_COOKIE_NAME, tk.AccessToken, 0, "/", "localhost", false, true)
 	//return response
 	response.Success(c, tk)
 	// c.JSON(http.StatusOK, tk)
