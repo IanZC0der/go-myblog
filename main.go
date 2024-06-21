@@ -1,18 +1,23 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	_ "github.com/IanZC0der/go-myblog/apps"
 	"github.com/IanZC0der/go-myblog/ioc"
+	"github.com/IanZC0der/go-myblog/protocol"
 
 	// "github.com/IanZC0der/go-myblog/apps/token"
 	// tokenAPIHandler "github.com/IanZC0der/go-myblog/apps/token/api"
 	// tokenImpl "github.com/IanZC0der/go-myblog/apps/token/impl"
 	// userImpl "github.com/IanZC0der/go-myblog/apps/user/impl"
 	"github.com/IanZC0der/go-myblog/conf"
-	"github.com/gin-gonic/gin"
+	// "github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -40,16 +45,42 @@ func main() {
 
 	// tokenApiHandler := ioc.ApiHandlerIocContainer.Get(token.AppName)
 
-	r := gin.Default()
+	// r := gin.Default()
 
-	ioc.DefaultApiHandlerContainer().RouterRegistry(r.Group("/api/myblog"))
+	// ioc.DefaultApiHandlerContainer().RouterRegistry(r.Group("/api/myblog"))
 
-	// start http server, register router
+	// // start http server, register router
 
-	err = r.Run(conf.C().App.HttpAddress())
+	// err = r.Run(conf.C().App.HttpAddress())
 
-	if err != nil {
-		fmt.Println(err)
-	}
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
+	httpSver := protocol.NewHttpServer()
+
+	go func() {
+		if err := httpSver.Run(); err != nil {
+			fmt.Println(err)
+			// os.Exit(1)
+		}
+	}()
+
+	//main go routine listening for signal
+
+	ch := make(chan os.Signal, 1)
+	defer close(ch)
+
+	signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGHUP, syscall.SIGQUIT)
+
+	sgnal := <-ch
+
+	fmt.Println(sgnal)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
+
+	httpSver.Close(ctx)
+	fmt.Println("Server graceful shutdown")
 
 }

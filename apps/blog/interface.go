@@ -76,26 +76,20 @@ func (req *QueryBlogRequest) Offset() int {
 	return int(req.PageSize * (req.PageNumber - 1))
 }
 
-func (req *QueryBlogRequest) ParsePageSize(pageSize string) error {
+func (req *QueryBlogRequest) ParsePageSize(pageSize string) {
 	pageSizeInt, err := strconv.ParseInt(pageSize, 10, 64)
 
-	if err != nil {
-		return err
+	if err != nil && pageSizeInt != 0 {
+		req.PageSize = int(pageSizeInt)
 	}
-
-	req.PageSize = int(pageSizeInt)
-	return nil
 }
 
-func (req *QueryBlogRequest) ParsePageNumber(pageNumber string) error {
+func (req *QueryBlogRequest) ParsePageNumber(pageNumber string) {
 	pageNumberInt, err := strconv.ParseInt(pageNumber, 10, 64)
 
-	if err != nil {
-		return err
+	if err != nil && pageNumberInt != 0 {
+		req.PageNumber = int(pageNumberInt)
 	}
-
-	req.PageNumber = int(pageNumberInt)
-	return nil
 }
 
 type UpdateBlogStatusRequest struct {

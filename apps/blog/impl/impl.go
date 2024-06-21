@@ -135,7 +135,7 @@ func (b *blogServiceImpl) QuerySingleBlog(ctx context.Context, req *blog.QuerySi
 	oneBlog := blog.NewBlog(blog.NewCreateBlogRequest())
 	query := b.db.WithContext(ctx).Model(&blog.Blog{})
 
-	if err := query.Where("id = ?", req.BlogId).First(oneBlog).Error; err != nil {
+	if err := query.Where("id = ?", req.BlogId).Find(oneBlog).Error; err != nil {
 
 		if err == gorm.ErrRecordNotFound {
 			return nil, exception.NewNotFound("blog %s not found", req.BlogId)
