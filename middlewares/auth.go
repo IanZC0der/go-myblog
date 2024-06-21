@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/IanZC0der/go-myblog/apps/token"
+	"github.com/IanZC0der/go-myblog/apps/user"
 	"github.com/IanZC0der/go-myblog/exception"
 	"github.com/IanZC0der/go-myblog/ioc"
 	"github.com/IanZC0der/go-myblog/response"
@@ -20,9 +21,10 @@ func NewAuthMiddleware() *AuthMiddleware {
 
 type AuthMiddleware struct {
 	tkSvc token.Service
+	role  user.Role
 }
 
-func (a *AuthMiddleware) Auth(c *gin.Context) {
+func (a *AuthMiddleware) Authenticator(c *gin.Context) {
 
 	// get the token from the token
 	accessToken, err := c.Cookie(token.TOKEN_COOKIE_NAME)
@@ -52,4 +54,39 @@ func (a *AuthMiddleware) Auth(c *gin.Context) {
 
 	// put token in the context
 	c.Keys[token.TOKEN_GIN_KEY_IN_CONTEXT] = tk
+}
+
+func (a *AuthMiddleware) Authorizer(c *gin.Context) {
+	// get token, if nil, throw exception permission deny
+	tokenObject := c.Keys[token.TOKEN_GIN_KEY_IN_CONTEXT]
+	if tokenObject == nil {
+		response.Failed(c, exception.NewPermissionDenied("token not found"))
+		return
+	}
+	// fmt.Println(tokenObject.(*token.Token).UserId)
+	// get the token, if not ok, throw exception permission deny
+	theToken, ok := tokenObject.(*token.Token)
+
+	if !ok {
+		response.Failed(c, exception.NewPermissionDenied("illegal token"))
+		return
+	}
+
+	// admin has the highest previlege
+	if theToken.Role == user.ROLE_ADMIN {
+		return
+	}
+
+	if theToken.Role != a.role {
+		response.Failed(c, exception.NewPermissionDenied("permission denied"))
+		return
+	}
+
+}
+
+// return an authorizer with param
+func AuthorizerWithRole(role user.Role) gin.HandlerFunc {
+	mw := NewAuthMiddleware()
+	mw.role = role
+	return mw.Authorizer
 }

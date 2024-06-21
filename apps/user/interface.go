@@ -46,7 +46,7 @@ type CreateUserRequest struct {
 
 func NewCreateUserRequest() *CreateUserRequest {
 	return &CreateUserRequest{
-		Role:     ROLE_MEMBER,
+		Role:     ROLE_AUTHOR,
 		Label:    map[string]string{},
 		IsHashed: false,
 	}

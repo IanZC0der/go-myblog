@@ -16,6 +16,7 @@ func Success(c *gin.Context, data any) {
 }
 
 func Failed(c *gin.Context, err error) {
+	defer c.Abort()
 	var e *exception.ApiException
 	if v, ok := err.(*exception.ApiException); ok {
 		e = v

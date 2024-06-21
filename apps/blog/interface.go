@@ -153,3 +153,9 @@ type AuditBlogRequest struct {
 	BlogId      string `json:"blog_id"`
 	AuditPassed bool   `json:"audit_passed"`
 }
+
+func NewAuditBlogRequest(BlogId string) *AuditBlogRequest {
+	return &AuditBlogRequest{
+		BlogId: BlogId,
+	}
+}

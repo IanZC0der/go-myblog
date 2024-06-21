@@ -10,6 +10,7 @@ import (
 	mq "github.com/IanZC0der/go-myblog/apps/mq"
 	mqimpl "github.com/IanZC0der/go-myblog/apps/mq/impl"
 	"github.com/IanZC0der/go-myblog/apps/token"
+	"github.com/IanZC0der/go-myblog/apps/user"
 	"github.com/IanZC0der/go-myblog/ioc"
 	"github.com/IanZC0der/go-myblog/middlewares"
 	"github.com/IanZC0der/go-myblog/response"
@@ -45,12 +46,13 @@ func (b *BlogApiHandler) Registry(router gin.IRouter) {
 	v1.GET("/:id", b.QueryOneBlog)
 
 	// added middleware for authorization
-	v1.Use(middlewares.NewAuthMiddleware().Auth)
-	v1.POST("/", b.CreateBlogWithMQ)
+	v1.Use(middlewares.NewAuthMiddleware().Authenticator)
+	v1.POST("/", middlewares.AuthorizerWithRole(user.ROLE_AUTHOR), b.CreateBlogWithMQ)
 	// v1.POST("/", b.CreateBlog)
-	v1.DELETE("/:id", b.DeleteOneBlog)
-	v1.PUT("/:id", b.UpdateBlogAll)
-	v1.PATCH("/:id", b.UpdateBlogPartial)
+	v1.DELETE("/:id", middlewares.AuthorizerWithRole(user.ROLE_AUTHOR), b.DeleteOneBlog)
+	v1.PUT("/:id", middlewares.AuthorizerWithRole(user.ROLE_AUTHOR), b.UpdateBlogAll)
+	v1.PATCH("/:id", middlewares.AuthorizerWithRole(user.ROLE_AUTHOR), b.UpdateBlogPartial)
+	v1.POST("/:id/audit", middlewares.AuthorizerWithRole(user.ROLE_AUDITOR), b.AuditOneBlog)
 
 }
 
@@ -206,22 +208,13 @@ func (b *BlogApiHandler) QueryBlogList(c *gin.Context) {
 
 	// get the token from the context
 
-	tokenObject := c.Keys[token.TOKEN_GIN_KEY_IN_CONTEXT]
-	fmt.Println(tokenObject.(*token.Token).UserId)
+	// tokenObject := c.Keys[token.TOKEN_GIN_KEY_IN_CONTEXT]
+	// fmt.Println(tokenObject.(*token.Token).UserId)
 	newReq := blog.NewQueryBlogRequest()
 	// err := c.BindJSON(newReq)
-	err := newReq.ParsePageSize(c.Query("page_size"))
+	newReq.ParsePageSize(c.Query("page_size"))
 
-	if err != nil {
-		response.Failed(c, err)
-		return
-	}
-	err = newReq.ParsePageNumber(c.Query("page_number"))
-
-	if err != nil {
-		response.Failed(c, err)
-		return
-	}
+	newReq.ParsePageNumber(c.Query("page_number"))
 
 	switch c.Query("status") {
 	case "draft":
@@ -272,5 +265,24 @@ func (b *BlogApiHandler) DeleteOneBlog(c *gin.Context) {
 		response.Failed(c, err)
 		return
 	}
+
+}
+
+// pass blog id in the path, POST .../{id}/audit
+func (b *BlogApiHandler) AuditOneBlog(c *gin.Context) {
+	newReq := blog.NewAuditBlogRequest(c.Param("id"))
+	err := c.BindJSON(newReq)
+	if err != nil {
+		response.Failed(c, err)
+		return
+	}
+
+	theBlog, err := b.svc.AuditBlog(c.Request.Context(), newReq)
+	if err != nil {
+		response.Failed(c, err)
+		return
+	}
+
+	response.Success(c, theBlog)
 
 }

@@ -7,13 +7,13 @@ const (
 	PUBLISHED
 )
 
-type Role int
+// type Role int
 
-const (
-	AUTHOR Role = iota
-	AUDITOR
-	ADMIN
-)
+// const (
+// 	AUTHOR Role = iota
+// 	AUDITOR
+// 	ADMIN
+// )
 
 type UpdateMode int
 

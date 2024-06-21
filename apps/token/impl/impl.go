@@ -2,6 +2,7 @@ package impl
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/IanZC0der/go-myblog/apps/token"
 	"github.com/IanZC0der/go-myblog/apps/user"
@@ -60,6 +61,7 @@ func (t *TokenServiceImpl) Login(ctx context.Context, req *token.LoginRequest) (
 	tk := token.NewToken()
 	tk.UserId = userQueried.Id
 	tk.UserName = userQueried.Username
+	tk.Role = userQueried.Role
 
 	if err := t.db.WithContext(ctx).Create(tk).Error; err != nil {
 		return nil, err
@@ -84,6 +86,17 @@ func (t *TokenServiceImpl) ValidateToken(ctx context.Context, req *token.Validat
 	if err := tk.IsExpired(); err != nil {
 		return nil, err
 	}
+
+	// get the user role, query the db
+	queryUser := user.NewQueryUserRequestById(fmt.Sprintf("%d", tk.UserId))
+
+	theUser, err := t.user.QueryUser(ctx, queryUser)
+
+	if err != nil {
+		return nil, err
+	}
+
+	tk.Role = theUser.Role
 
 	return tk, nil
 }
