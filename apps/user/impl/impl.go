@@ -79,6 +79,7 @@ func (u *UserServiceImpl) QueryUser(
 	case user.QUERY_BY_USERNAME:
 		query = query.Where("username = ?", req.QueryValue)
 	}
+	// fmt.Println(a ...any)
 	newUser := user.NewUser(user.NewCreateUserRequest())
 	if err := query.First(newUser).Error; err != nil {
 

@@ -34,10 +34,14 @@ func NewTokenExpired(message string, a ...any) *ApiException {
 
 }
 func New(code int, message string, a ...any) *ApiException {
+	httpCode := http.StatusInternalServerError
+	if code > 0 && code < 600 {
+		httpCode = code
+	}
 	return &ApiException{
 		Code:     code,
 		Message:  fmt.Sprintf(message, a...),
-		HttpCode: http.StatusOK,
+		HttpCode: httpCode,
 	}
 }
 
