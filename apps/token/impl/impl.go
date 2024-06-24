@@ -3,6 +3,7 @@ package impl
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/IanZC0der/go-myblog/apps/token"
 	"github.com/IanZC0der/go-myblog/apps/user"
@@ -63,18 +64,61 @@ func (t *TokenServiceImpl) Login(ctx context.Context, req *token.LoginRequest) (
 	tk.UserName = userQueried.Username
 	tk.Role = userQueried.Role
 
-	if err := t.db.WithContext(ctx).Create(tk).Error; err != nil {
-		return nil, err
-	}
-	// delete the old token after generating the new token, to be impled
+	// query the token by id
+	oldToken, err := t.QueryTokenBy(ctx, token.NewQueryTokenRequestById(strconv.Itoa(int(tk.UserId))))
 
-	return tk, nil
+	if err != nil {
+		if !exception.IsNotFound(err) {
+			return nil, token.AuthFailed
+		}
+	}
+	// update the old token after generating the new token, to be impled
+
+	if oldToken != nil {
+		if err = t.db.WithContext(ctx).Model(&oldToken).Where("user_name = ?", oldToken.UserName).Updates(tk).Error; err != nil {
+			return nil, err
+		}
+		return oldToken, nil
+	} else {
+		if err := t.db.WithContext(ctx).Create(tk).Error; err != nil {
+			return nil, err
+		}
+
+		return tk, nil
+
+	}
+
 }
 
 func (t *TokenServiceImpl) Logout(ctx context.Context, req *token.LogoutRequest) error {
-	return nil
+	tk, err := t.QueryTokenBy(ctx, token.NewQueryTokenRequestByToken(req.AccessToken))
+
+	if err != nil {
+		return err
+	}
+
+	return t.db.WithContext(ctx).Where("access_token = ?", req.AccessToken).Delete(&tk).Error
 }
 
+func (t *TokenServiceImpl) QueryTokenBy(ctx context.Context, req *token.QueryTokenRequest) (*token.Token, error) {
+	query := t.db.WithContext(ctx)
+	switch req.Queryby {
+	case token.QUERY_BY_ID:
+		query = query.Where("user_id = ?", req.QueryValue)
+	case token.QUERY_BY_ACCESS_TOKEN:
+		query = query.Where("access_token = ?", req.QueryValue)
+	}
+	// fmt.Println(a ...any)
+	var oldToken *token.Token
+	if err := query.First(&oldToken).Error; err != nil {
+
+		if err == gorm.ErrRecordNotFound {
+			return nil, exception.NewNotFound("token %s not found", req.QueryValue)
+		}
+		return nil, err
+	}
+	return oldToken, nil
+}
 func (t *TokenServiceImpl) ValidateToken(ctx context.Context, req *token.ValidateToken) (*token.Token, error) {
 
 	// query the token from the db

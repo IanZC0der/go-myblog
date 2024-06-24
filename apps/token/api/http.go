@@ -70,6 +70,21 @@ func (h *TokenApiHandler) Login(c *gin.Context) {
 
 }
 
-func (h *TokenApiHandler) Logout(*gin.Context) {
+func (h *TokenApiHandler) Logout(c *gin.Context) {
 
+	newReq := token.NewLogoutRequest()
+
+	err := c.BindJSON(newReq)
+
+	if err != nil {
+		response.Failed(c, err)
+		return
+	}
+	err = h.svc.Logout(c, newReq)
+
+	if err != nil {
+		response.Failed(c, err)
+	}
+	c.SetCookie(token.TOKEN_COOKIE_NAME, "", -1, "/", "localhost", false, true)
+	response.Success(c, "logout successfuly")
 }

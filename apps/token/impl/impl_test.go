@@ -37,6 +37,41 @@ func TestLogin(t *testing.T) {
 
 }
 
+func TestQueryTokenById(t *testing.T) {
+	req := token.NewQueryTokenRequestById("4")
+	tk, err := tokenSvc.QueryTokenBy(ctx, req)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(tk)
+}
+
+func TestQueryTokenByToken(t *testing.T) {
+	req := token.NewQueryTokenRequestByToken("cpsci9qclaaq3a2r0hf0")
+	tk, err := tokenSvc.QueryTokenBy(ctx, req)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(tk)
+}
+
+func TestLogout(t *testing.T) {
+	req := &token.LogoutRequest{
+		AccessToken: "cpsci9qclaaq3a2r0hf0",
+	}
+
+	err := tokenSvc.Logout(ctx, req)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}
+
 func TestValidateToken(t *testing.T) {
 	req := &token.ValidateToken{
 		AccessToken: "cpn3jbiclaaljs6rmt50",
