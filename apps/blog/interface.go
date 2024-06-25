@@ -79,7 +79,7 @@ func (req *QueryBlogRequest) Offset() int {
 func (req *QueryBlogRequest) ParsePageSize(pageSize string) {
 	pageSizeInt, err := strconv.ParseInt(pageSize, 10, 64)
 
-	if err != nil && pageSizeInt != 0 {
+	if err == nil && pageSizeInt != 0 {
 		req.PageSize = int(pageSizeInt)
 	}
 }
@@ -87,7 +87,7 @@ func (req *QueryBlogRequest) ParsePageSize(pageSize string) {
 func (req *QueryBlogRequest) ParsePageNumber(pageNumber string) {
 	pageNumberInt, err := strconv.ParseInt(pageNumber, 10, 64)
 
-	if err != nil && pageNumberInt != 0 {
+	if err == nil && pageNumberInt != 0 {
 		req.PageNumber = int(pageNumberInt)
 	}
 }
