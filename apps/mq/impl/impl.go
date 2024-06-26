@@ -8,6 +8,7 @@ import (
 	"github.com/IanZC0der/go-myblog/ioc"
 	"github.com/gin-gonic/gin"
 	amqp "github.com/rabbitmq/amqp091-go"
+	// "gorm.io/gorm"
 )
 
 type MQClient struct {
@@ -15,6 +16,7 @@ type MQClient struct {
 	Channel        *amqp.Channel
 	resultChannels map[string]chan interface{}
 	lock           sync.Mutex
+	ctx            *gin.Context
 }
 
 func NewClient(dsn string) (*MQClient, error) {
@@ -66,6 +68,7 @@ func (mq *MQClient) Init() error {
 	mq.Connection = conn
 	mq.Channel = ch
 	mq.resultChannels = make(map[string]chan interface{})
+	mq.ctx = &gin.Context{}
 
 	_, err = mq.Channel.QueueDeclare(
 		mqconfig.CREATE_BLOG_QUEUE,
@@ -86,6 +89,8 @@ func (mq *MQClient) Name() string {
 }
 
 func (mq *MQClient) Publish(c *gin.Context, queueName string, body interface{}, resultChan chan interface{}) error {
+
+	mq.ctx = c
 
 	data, err := json.Marshal(body)
 	if err != nil {
@@ -120,6 +125,10 @@ func (mq *MQClient) Consumer(queueName string) (<-chan amqp.Delivery, error) {
 		false,
 		nil,
 	)
+}
+
+func (mq *MQClient) GetCtx() *gin.Context {
+	return mq.ctx
 }
 
 func (mq *MQClient) StoreResultChannel(queueName string, resultChan chan interface{}) {

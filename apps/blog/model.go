@@ -16,8 +16,8 @@ type CreateBlogRequest struct {
 }
 
 func (req *CreateBlogRequest) Validate() error {
-	if req.Title == "" || req.Author == "" || req.Content == "" || req.Abstract == "" {
-		return fmt.Errorf("cannot be empty")
+	if req.Title == "" || req.Author == "" || req.Abstract == "" {
+		return fmt.Errorf("title/abstract/cannot be empty")
 	}
 
 	return nil

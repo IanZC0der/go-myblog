@@ -1,13 +1,14 @@
 package api
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 
 	"github.com/IanZC0der/go-myblog/apps/blog"
 	mq "github.com/IanZC0der/go-myblog/apps/mq"
+
+	// "github.com/IanZC0der/go-myblog/apps/mq/impl"
 	mqimpl "github.com/IanZC0der/go-myblog/apps/mq/impl"
 	"github.com/IanZC0der/go-myblog/apps/token"
 	"github.com/IanZC0der/go-myblog/apps/user"
@@ -92,6 +93,7 @@ func (b *BlogApiHandler) CreateBlogWithMQ(c *gin.Context) {
 	theToken := tokenObject.(*token.Token)
 	newReq := blog.NewCreateBlogRequest()
 	err := c.BindJSON(newReq)
+	// mqimpl.GetMQClient()
 
 	if err != nil {
 		// c.JSON(http.StatusBadRequest, err.Error())
@@ -137,10 +139,16 @@ func (b *BlogApiHandler) ConsumeCreateBlog() {
 				log.Printf("Error decoding JSON: %v", err)
 				continue
 			}
+			if mqimpl.GetMQClient().GetCtx() == nil {
+				fmt.Println(mqimpl.GetMQClient().GetCtx())
+				d.Ack(false)
+				continue
+			}
 
-			createdBlog, err := b.svc.CreateBlog(context.Background(), &req)
+			createdBlog, err := b.svc.CreateBlog(mqimpl.GetMQClient().GetCtx().Request.Context(), &req)
 			if err != nil {
 				log.Printf("Failed to create blog: %v", err)
+				d.Ack(false)
 				continue
 			}
 			d.Ack(false)
