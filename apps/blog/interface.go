@@ -49,6 +49,8 @@ type QueryBlogRequest struct {
 	// 0: filter condition is DRAFT
 	// 1: filter condition is PUBLISHED
 	Status *Status `json:""`
+
+	Keywords string `json:"keywords"`
 }
 
 type QuerySingleBlogRequest struct {
@@ -65,6 +67,7 @@ func NewQueryBlogRequest() *QueryBlogRequest {
 	return &QueryBlogRequest{
 		PageSize:   5,
 		PageNumber: 1,
+		Keywords:   "",
 	}
 }
 

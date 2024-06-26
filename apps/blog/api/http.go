@@ -215,6 +215,7 @@ func (b *BlogApiHandler) QueryBlogList(c *gin.Context) {
 	newReq.ParsePageSize(c.Query("page_size"))
 
 	newReq.ParsePageNumber(c.Query("page_number"))
+	newReq.Keywords = c.Query("keywords")
 
 	switch c.Query("status") {
 	case "draft":
