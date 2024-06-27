@@ -2,37 +2,43 @@ syntax = "proto3";
 
 package comment;
 
-option go_package = "github.com/IanZC0der/go-myblog/apps/comment/proto";
-
-import "google/protobuf/timestamp.proto";
+option go_package = "github.com/IanZC0der/go-myblog/apps/comment";
 
 service CommentService {
     // add a comment
-    rpc AddComment(AddCommentRequest) returns (CommentList);
+    rpc AddComment(AddCommentRequest) returns (Comment);
     // get comments for a blog by blog id
     rpc GetAllCommentsByBlogId(GetCommentRequest) returns (CommentList);
 
 }
 
 message Comment{
-    string message = 1;
-    google.protobuf.Timestamp created_at = 2;
-    string commentor = 3;
-    int64 blog_id = 4;
+    // string message = 1;
+    // @gotags: json:"created_at"
+    int64 created_at = 1;
+    // string commentor = 3;
+    // int64 blog_id = 4;
+    AddCommentRequest comment_request = 2;
 }
 
 message CommentList {
+    // @gotags: json:"comments"
     repeated Comment comments = 1;
+    // @gotags: json:"total"
     int64 total = 2;
 }
 
 message AddCommentRequest {
+    // @gotags: json:"message"
     string message = 1;
-    string commentor = 2;
+    // @gotags: json:"user_name"
+    string user_name = 2;
+    // @gotags: json:"blog_id"
     int64 blog_id = 3;
 }
 
 
 message GetCommentRequest {
+    // @gotags: json:"blog_id"
     int64 blog_id = 1;
 }
