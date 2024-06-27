@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package comment;
+
+option go_package = "github.com/IanZC0der/go-myblog/apps/comment/proto";
+
+import "google/protobuf/timestamp.proto";
+
+service CommentService {
+    // add a comment
+    rpc AddComment(AddCommentRequest) returns (CommentList);
+    // get comments for a blog by blog id
+    rpc GetAllCommentsByBlogId(GetCommentRequest) returns (CommentList);
+
+}
+
+message Comment{
+    string message = 1;
+    google.protobuf.Timestamp created_at = 2;
+    string commentor = 3;
+    int64 blog_id = 4;
+}
+
+message CommentList {
+    repeated Comment comments = 1;
+    int64 total = 2;
+}
+
+message AddCommentRequest {
+    string message = 1;
+    string commentor = 2;
+    int64 blog_id = 3;
+}
+
+
+message GetCommentRequest {
+    int64 blog_id = 1;
+}
