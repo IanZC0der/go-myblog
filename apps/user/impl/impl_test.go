@@ -20,9 +20,9 @@ var (
 
 func TestCreateUser(t *testing.T) {
 	req := user.NewCreateUserRequest()
-	req.Username = "audituser"
-	req.Password = "auditpassword"
-	req.Role = user.ROLE_AUDITOR
+	req.Username = "ianzhang"
+	req.Password = "testpassword"
+	req.Role = user.ROLE_AUTHOR
 	u, err := userSvc.CreateUser(ctx, req)
 
 	if err != nil {

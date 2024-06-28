@@ -6,6 +6,7 @@ import (
 )
 
 type Comment struct {
+	Id int64 `json:"id"`
 	*AddCommentRequest
 	CreatedAt int64 `json:"created_at" gorm:"created_at"`
 }

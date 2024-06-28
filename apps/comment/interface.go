@@ -3,6 +3,7 @@ package comment
 import (
 	"context"
 	"fmt"
+	"strconv"
 )
 
 type Service interface {
@@ -25,6 +26,18 @@ func (req *AddCommentRequest) Validate() error {
 
 func NewAddCommentRequest() *AddCommentRequest {
 	return &AddCommentRequest{}
+}
+
+func (req *GetAllCommentRequest) SetId(BlogId string) error {
+	if BlogId == "" {
+		return fmt.Errorf("blog id cannot be empty")
+	}
+	id, err := strconv.Atoi(BlogId)
+	if err != nil {
+		return fmt.Errorf("invalid blog id")
+	}
+	req.BlogId = id
+	return nil
 }
 
 type GetAllCommentRequest struct {
