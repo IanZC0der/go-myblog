@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package comment;
+package commentrpc;
 
-option go_package = "github.com/IanZC0der/go-myblog/apps/comment";
+option go_package = "github.com/IanZC0der/go-myblog/apps/commentrpc";
 
 service CommentService {
     // add a comment

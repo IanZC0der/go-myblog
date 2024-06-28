@@ -48,7 +48,7 @@ func TestGetWorkingPwd(t *testing.T) {
 
 func TestQueryBlogs(t *testing.T) {
 	newReq := blog.NewQueryBlogRequest()
-	newReq.SetStatus(blog.PUBLISHED)
+	newReq.SetStatus(blog.DRAFT)
 	blogs, err := blogSvc.QueryBlog(ctx, newReq)
 
 	if err != nil {

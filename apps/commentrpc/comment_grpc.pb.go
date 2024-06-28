@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: apps/comment/proto/comment.proto
+// source: apps/commentrpc/proto/comment.proto
 
-package comment
+package commentrpc
 
 import (
 	context "context"
@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	CommentService_AddComment_FullMethodName             = "/comment.CommentService/AddComment"
-	CommentService_GetAllCommentsByBlogId_FullMethodName = "/comment.CommentService/GetAllCommentsByBlogId"
+	CommentService_AddComment_FullMethodName             = "/commentrpc.CommentService/AddComment"
+	CommentService_GetAllCommentsByBlogId_FullMethodName = "/commentrpc.CommentService/GetAllCommentsByBlogId"
 )
 
 // CommentServiceClient is the client API for CommentService service.
@@ -135,7 +135,7 @@ func _CommentService_GetAllCommentsByBlogId_Handler(srv interface{}, ctx context
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CommentService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "comment.CommentService",
+	ServiceName: "commentrpc.CommentService",
 	HandlerType: (*CommentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -148,5 +148,5 @@ var CommentService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "apps/comment/proto/comment.proto",
+	Metadata: "apps/commentrpc/proto/comment.proto",
 }
