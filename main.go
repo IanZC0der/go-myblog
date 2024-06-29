@@ -23,7 +23,7 @@ import (
 func main() {
 	// load config
 
-	err := conf.LoadConfigFromToml("etc/development.toml")
+	err := conf.LoadConfigFromToml("")
 
 	if err != nil {
 		fmt.Println(err)

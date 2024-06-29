@@ -39,11 +39,13 @@ func (c *CommentApiHandler) Registry(router gin.IRouter) {
 func (c *CommentApiHandler) AddComment(ctx *gin.Context) {
 
 	newReq := comment.NewAddCommentRequest()
+	// fmt.Println(newReq)
 	err := ctx.BindJSON(newReq)
 	if err != nil {
 		response.Failed(ctx, err)
 		return
 	}
+	// fmt.Println(newReq)
 
 	newComment, err := c.svc.AddComment(ctx, newReq)
 

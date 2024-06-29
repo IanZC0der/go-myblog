@@ -9,6 +9,10 @@ import (
 	"gorm.io/gorm"
 
 	"encoding/json"
+
+	"os"
+	"strconv"
+	// "github.com/joho/godotenv"
 )
 
 // config for the backend
@@ -25,6 +29,32 @@ func DefaultConfig() *Config {
 		App: &App{
 			HttpHost: "127.0.0.1",
 			HttpPort: 7080,
+		},
+	}
+}
+
+func ConfigFromEnv() *Config {
+	// pwd, _ := os.Getwd()
+	// fmt.Println(pwd)
+	// err := godotenv.Load(".env")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	dbPortNumber, _ := strconv.Atoi(os.Getenv("MYSQL_PORT"))
+	httpPortNumber, _ := strconv.Atoi(os.Getenv("HTTP_PORT"))
+	fmt.Println(dbPortNumber)
+	fmt.Println(httpPortNumber)
+	return &Config{
+		MySQL: &MySQL{
+			Host:     os.Getenv("MYSQL_HOST"),
+			Port:     dbPortNumber,
+			DB:       os.Getenv("MYSQL_DB"),
+			Username: os.Getenv("MYSQL_USERNAME"),
+			Password: os.Getenv("MYSQL_PASSWORD"),
+		},
+		App: &App{
+			HttpHost: os.Getenv("HTTP_HOST"),
+			HttpPort: int64(httpPortNumber),
 		},
 	}
 }

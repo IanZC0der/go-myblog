@@ -41,19 +41,39 @@ func (b *BlogApiHandler) Registry(router gin.IRouter) {
 
 	// we need api for creating blog, updating blog, querying blog(s), u
 	v1 := router.Group("v1").Group("blogs")
+	v1.Use(middlewares.NewAuthMiddleware().Authenticator)
 	// /myblog/api/v1/blogs
 	v1.GET("/", b.QueryBlogList)
 	// myblog/api/v1/blogs/:id
 	v1.GET("/:id", b.QueryOneBlog)
 
 	// added middleware for authorization
-	v1.Use(middlewares.NewAuthMiddleware().Authenticator)
 	v1.POST("/", middlewares.AuthorizerWithRole(user.ROLE_AUTHOR), b.CreateBlogWithMQ)
 	// v1.POST("/", b.CreateBlog)
+	v1.PATCH("/:id/publish", middlewares.AuthorizerWithRole(user.ROLE_AUTHOR), b.UpdateBlogStatus)
 	v1.DELETE("/:id", middlewares.AuthorizerWithRole(user.ROLE_AUTHOR), b.DeleteOneBlog)
 	v1.PUT("/:id", middlewares.AuthorizerWithRole(user.ROLE_AUTHOR), b.UpdateBlogAll)
 	v1.PATCH("/:id", middlewares.AuthorizerWithRole(user.ROLE_AUTHOR), b.UpdateBlogPartial)
 	v1.POST("/:id/audit", middlewares.AuthorizerWithRole(user.ROLE_AUDITOR), b.AuditOneBlog)
+
+}
+
+func (b *BlogApiHandler) UpdateBlogStatus(c *gin.Context) {
+
+	newReq := blog.NewUpdateBlogStatusRequest(c.Param("id"))
+	err := c.BindJSON(newReq)
+	if err != nil {
+		response.Failed(c, err)
+		return
+	}
+
+	newBlog, err := b.svc.UpdateBlogStatus(c.Request.Context(), newReq)
+	if err != nil {
+		response.Failed(c, err)
+		return
+	}
+
+	response.Success(c, newBlog)
 
 }
 
@@ -224,6 +244,7 @@ func (b *BlogApiHandler) QueryBlogList(c *gin.Context) {
 
 	newReq.ParsePageNumber(c.Query("page_number"))
 	newReq.Keywords = c.Query("keywords")
+	newReq.Author = c.Query("author")
 
 	switch c.Query("status") {
 	case "draft":

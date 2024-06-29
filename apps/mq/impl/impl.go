@@ -54,7 +54,8 @@ func init() {
 }
 
 func (mq *MQClient) Init() error {
-	address := mqconfig.DefaultMQConfig().RabbitMQ.GetAddress()
+	address := mqconfig.ConfigFromENV().RabbitMQ.GetAddress()
+	// address := mqconfig.DefaultMQConfig().RabbitMQ.GetAddress()
 	conn, err := amqp.Dial(address)
 	if err != nil {
 		return err

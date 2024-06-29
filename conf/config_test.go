@@ -29,3 +29,13 @@ func TestLoadConfigFromEnv(t *testing.T) {
 	t.Log(conf.C())
 
 }
+
+func TestConfigFromEnvForProduction(t *testing.T) {
+	err := conf.ConfigFromEnv()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(conf.C())
+}

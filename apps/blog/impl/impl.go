@@ -124,6 +124,10 @@ func (b *blogServiceImpl) QueryBlog(ctx context.Context, req *blog.QueryBlogRequ
 	if req.Keywords != "" {
 		query = query.Where("title LIKE ?", "%"+req.Keywords+"%")
 	}
+
+	if req.Author != "" {
+		query = query.Where("author = ?", req.Author)
+	}
 	//get the count of the blogs
 	err := query.Count(&blogList.Total).Error
 	if err != nil {

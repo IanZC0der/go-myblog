@@ -2,6 +2,9 @@ package mqconfig
 
 import (
 	"fmt"
+	"os"
+
+	"strconv"
 
 	"github.com/caarlos0/env/v6"
 )
@@ -26,6 +29,22 @@ func DefaultMQConfig() *MQConfig {
 			Port:     5672,
 			User:     "guest",
 			Password: "guest",
+		},
+	}
+}
+
+func ConfigFromENV() *MQConfig {
+
+	// err := godotenv.Load(fmt.Sprintf("%s/%s", pwd, ".env"))
+
+	portNumber, _ := strconv.Atoi(os.Getenv("RABBITMQ_PORT"))
+
+	return &MQConfig{
+		RabbitMQ: &RabbitMQ{
+			Host:     os.Getenv("RABBITMQ_HOST"),
+			Port:     portNumber,
+			User:     os.Getenv("RABBITMQ_USER"),
+			Password: os.Getenv("RABBITMQ_PASSWORD"),
 		},
 	}
 }

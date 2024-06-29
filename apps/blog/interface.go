@@ -51,6 +51,7 @@ type QueryBlogRequest struct {
 	Status *Status `json:""`
 
 	Keywords string `json:"keywords"`
+	Author   string `json:"author"`
 }
 
 type QuerySingleBlogRequest struct {
@@ -68,6 +69,7 @@ func NewQueryBlogRequest() *QueryBlogRequest {
 		PageSize:   5,
 		PageNumber: 1,
 		Keywords:   "",
+		Author:     "",
 	}
 }
 
