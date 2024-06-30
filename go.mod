@@ -40,6 +40,7 @@ require (
 require (
 	dario.cat/mergo v1.0.0
 	github.com/caarlos0/env/v6 v6.10.1
+	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect

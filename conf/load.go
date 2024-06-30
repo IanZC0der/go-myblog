@@ -4,9 +4,7 @@ import (
 	"os"
 
 	"strconv"
-
 	// "github.com/BurntSushi/toml"
-	"github.com/caarlos0/env/v6"
 )
 
 var (
@@ -41,5 +39,5 @@ func LoadConfigFromEnv() error {
 	portNumber, _ = strconv.Atoi(os.Getenv("HTTP_PORT"))
 	config.App.HttpPort = int64(portNumber)
 
-	return env.Parse(config)
+	return nil
 }

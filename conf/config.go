@@ -42,7 +42,7 @@ func ConfigFromEnv() *Config {
 	// }
 	dbPortNumber, _ := strconv.Atoi(os.Getenv("MYSQL_PORT"))
 	httpPortNumber, _ := strconv.Atoi(os.Getenv("HTTP_PORT"))
-	fmt.Println(dbPortNumber)
+	fmt.Println(os.Getenv("MYSQL_HOST"))
 	fmt.Println(httpPortNumber)
 	return &Config{
 		MySQL: &MySQL{
@@ -60,9 +60,9 @@ func ConfigFromEnv() *Config {
 }
 
 type Config struct {
-	MySQL *MySQL `json:"mysql" toml:"mysql"`
+	MySQL *MySQL `json:"mysql"`
 
-	App *App `json:"app" toml:"app"`
+	App *App `json:"app"`
 }
 
 type App struct {
