@@ -1,0 +1,185 @@
+<mxfile host="65bd71144e">
+    <diagram id="LYDQG5cKYdMeNc-Pv3U5" name="Page-1">
+        <mxGraphModel dx="1769" dy="1491" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="5" style="edgeStyle=none;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fontSize=19;" parent="1" source="2" target="4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="&amp;nbsp;Web Browser" style="rounded=0;whiteSpace=wrap;html=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="150" width="1910" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" style="edgeStyle=none;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;fontSize=19;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="4" target="2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="500.2352941176471" y="220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" style="edgeStyle=none;html=1;exitX=0.058;exitY=0.992;exitDx=0;exitDy=0;entryX=0.376;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=19;exitPerimeter=0;" parent="1" source="4" target="9" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Nginx listending at port 80&lt;br style=&quot;font-size: 22px;&quot;&gt;forwarding the traffic to frontend and backend" style="rounded=0;whiteSpace=wrap;html=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="300" width="1910" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="requests" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=25;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="220" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Static resources&lt;br style=&quot;font-size: 21px;&quot;&gt;data returned by backend" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=21;" parent="1" vertex="1">
+                    <mxGeometry x="1220" y="220" width="260" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" style="edgeStyle=none;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;fontSize=19;" parent="1" source="9" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="250" y="360" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="Compiled frontend &lt;br style=&quot;font-size: 23px;&quot;&gt;on AWS EC2" style="rounded=0;whiteSpace=wrap;html=1;fontSize=23;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="510" width="240" height="650" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="requests" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="55" y="410" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="&lt;span style=&quot;font-family: Helvetica; font-size: 22px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;&lt;font color=&quot;#1c0303&quot;&gt;Static HTML/CSS/JS, files...&lt;/font&gt;&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="410" width="270" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="" style="rounded=0;whiteSpace=wrap;html=1;fontSize=19;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="510" width="1570" height="1570" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="requests" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="735" y="410" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="" style="endArrow=classic;html=1;fontSize=19;exitX=0.363;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.225;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="4" target="16" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="750" y="500" as="sourcePoint"/>
+                        <mxPoint x="750" y="360" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="21" value="data" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=24;" parent="1" vertex="1">
+                    <mxGeometry x="1670" y="415" width="70" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="backend on EC2: listening at port 7080" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" parent="1" vertex="1">
+                    <mxGeometry x="1780" y="450" width="180" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="IoC Container: API Handler Container" style="shape=umlFrame;whiteSpace=wrap;html=1;width=270;height=50;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="550" y="560" width="1280" height="440" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=19;entryX=0.145;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="28" target="43" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="Login: POST, &quot;/tokens/&quot;&lt;br style=&quot;font-size: 22px;&quot;&gt;Logout: DELETE, &quot;/tokens/&quot;&amp;nbsp;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="640" width="310" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="&lt;&lt;Token API Handler&gt;&gt;" style="resizeWidth=1;part=1;strokeColor=none;fillColor=none;align=left;spacingLeft=5;fontSize=21;" parent="28" vertex="1">
+                    <mxGeometry width="310" height="25" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="73" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=19;" parent="1" source="30" target="72" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Query Blog List: GET, &quot;/&quot;&lt;br style=&quot;font-size: 21px;&quot;&gt;Query One Blog: GET, &quot;/:id&quot;&lt;br style=&quot;font-size: 21px;&quot;&gt;Create Blog: POST, &quot;/&quot;&lt;br style=&quot;font-size: 21px;&quot;&gt;Update Blog Status: PATCH, &quot;/:id/publish&quot;&lt;br style=&quot;font-size: 21px;&quot;&gt;Delete One Blog: DELETE, &quot;/:id&quot;&lt;br style=&quot;font-size: 21px;&quot;&gt;Update Blog: PUT, &quot;/:id&quot;&lt;br style=&quot;font-size: 21px;&quot;&gt;Update Blog Partial: PATCH, &quot;/:id&quot;&lt;br style=&quot;font-size: 21px;&quot;&gt;Audit One Blog: POST, &quot;:id&quot;&lt;br style=&quot;font-size: 21px;&quot;&gt;&lt;br style=&quot;font-size: 21px;&quot;&gt;&amp;nbsp;&lt;br style=&quot;font-size: 21px;&quot;&gt;&lt;br style=&quot;font-size: 21px;&quot;&gt;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;fontSize=21;" parent="1" vertex="1">
+                    <mxGeometry x="1390" y="650" width="400" height="290" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="&lt;&lt;Blog API Handler&gt;&gt;" style="resizeWidth=1;part=1;strokeColor=none;fillColor=none;align=left;spacingLeft=5;fontSize=22;" parent="30" vertex="1">
+                    <mxGeometry width="400" height="25" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=19;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="32" target="70" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="Get Comments: GET, &quot;/:id&quot;&lt;br style=&quot;font-size: 22px;&quot;&gt;Add a Comment: POST, &quot;/&quot;&amp;nbsp;&lt;br style=&quot;font-size: 22px;&quot;&gt;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="940" y="645" width="400" height="290" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="&lt;&lt;Comment API Handler&gt;&gt;" style="resizeWidth=1;part=1;strokeColor=none;fillColor=none;align=left;spacingLeft=5;fontSize=22;" parent="32" vertex="1">
+                    <mxGeometry width="400" height="25" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="Interceptors" style="shape=umlFrame;whiteSpace=wrap;html=1;width=120;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fontSize=23;" parent="1" vertex="1">
+                    <mxGeometry x="550" y="1060" width="1280" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="Authenticator: check the access token in the context, must be valid" style="fontStyle=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="1120" width="1200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="Authorizer: user must process appropriate roles" style="fontStyle=1;fontSize=23;" parent="1" vertex="1">
+                    <mxGeometry x="870" y="1210" width="570" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="IoC Container: Service Container" style="shape=umlFrame;whiteSpace=wrap;html=1;width=360;height=38;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="550" y="1432" width="1280" height="440" as="geometry"/>
+                </mxCell>
+                <mxCell id="81" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=19;" parent="1" source="65" target="77" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="65" value="Create User&lt;br style=&quot;font-size: 22px;&quot;&gt;Delete User&lt;br style=&quot;font-size: 22px;&quot;&gt;Query User" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="1512" width="160" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="66" value="&lt;&lt;User Service&gt;&gt;" style="resizeWidth=1;part=1;strokeColor=none;fillColor=none;align=left;spacingLeft=5;fontSize=19;" parent="65" vertex="1">
+                    <mxGeometry width="160" height="25" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="82" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=19;" parent="1" source="67" target="78" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="67" value="Login&lt;br style=&quot;font-size: 22px;&quot;&gt;Logout&lt;br style=&quot;font-size: 22px;&quot;&gt;Query Token&lt;br style=&quot;font-size: 22px;&quot;&gt;Validate Token" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="1512" width="170" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" value="&lt;&lt;Token Service&gt;&gt;" style="resizeWidth=1;part=1;strokeColor=none;fillColor=none;align=left;spacingLeft=5;fontSize=19;" parent="67" vertex="1">
+                    <mxGeometry width="170" height="25" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="83" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=19;startArrow=none;" parent="1" source="90" target="79" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="69" value="Create Blog&lt;br style=&quot;font-size: 22px;&quot;&gt;Update Blog&lt;br style=&quot;font-size: 22px;&quot;&gt;Query Blog&lt;br style=&quot;font-size: 22px;&quot;&gt;Delete Blog&lt;br style=&quot;font-size: 22px;&quot;&gt;Audit Blog" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="1040" y="1512" width="200" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" value="&lt;&lt;Blog Service&gt;&gt;" style="resizeWidth=1;part=1;strokeColor=none;fillColor=none;align=left;spacingLeft=5;fontSize=19;" parent="69" vertex="1">
+                    <mxGeometry width="200" height="25" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="84" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=19;" parent="1" source="71" target="80" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="Add Comment&lt;br style=&quot;font-size: 22px;&quot;&gt;Query Comment" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="1485" y="1512" width="210" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="72" value="&lt;&lt;Comment Service&gt;&gt;" style="resizeWidth=1;part=1;strokeColor=none;fillColor=none;align=left;spacingLeft=5;fontSize=19;" parent="71" vertex="1">
+                    <mxGeometry width="210" height="25" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="74" value="RabbitMQ" style="shape=partialRectangle;html=1;top=1;align=center;dashed=1;fontSize=23;" parent="1" vertex="1">
+                    <mxGeometry x="1040" y="1350" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="76" value="MySQL" style="shape=umlFrame;whiteSpace=wrap;html=1;width=120;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fontSize=19;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="1960" width="1490" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="77" value="User" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="610" y="1990" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="78" value="Token" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="795" y="1990" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="79" value="Blog" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="1090" y="1990" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="80" value="Comment" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="1540" y="1990" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="88" value="GORM" style="shape=partialRectangle;html=1;top=1;align=center;dashed=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="770" y="1890" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="89" value="GORM" style="shape=partialRectangle;html=1;top=1;align=center;dashed=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="585" y="1890" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="91" value="" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=19;endArrow=none;" parent="1" source="69" target="90" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1140" y="1812" as="sourcePoint"/>
+                        <mxPoint x="1140" y="1990" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="90" value="GORM" style="shape=partialRectangle;html=1;top=1;align=center;dashed=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="1065" y="1890" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="92" value="GORM" style="shape=partialRectangle;html=1;top=1;align=center;dashed=1;fontSize=22;" parent="1" vertex="1">
+                    <mxGeometry x="1515" y="1890" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="94" value="" style="endArrow=classic;html=1;fontSize=24;entryX=0.887;entryY=1.002;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.863;exitY=-0.002;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="16" target="4" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1370" y="630" as="sourcePoint"/>
+                        <mxPoint x="1420" y="580" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
