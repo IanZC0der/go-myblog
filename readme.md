@@ -23,5 +23,6 @@
 ## Hightlights in this Project
 + Deployed the App on **AWS EC2** instance with **Docker**, used Docker Compose for orchestration
 + Applied **RabbitMQ** to decouple the API handler and service layer
++ Implemented **authenticator and authorizor middlewares** for authentication and authorization
 + Implemented **TDD** (Test Driven Development) approach and comprehensively performed unit tests for each functionality, improved the robustness of the app
 + Designed **IoC (Inverse of Control) container** to seperate the dependencies between service modules, enhanced scalibility
