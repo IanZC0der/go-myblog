@@ -1,5 +1,12 @@
 # MyBlog: A MARKDOWN Blog App with a Monolithic Architecture Built with Go
 
+
+## Website
+
+[MyBlog](http://ec2-52-53-232-78.us-west-1.compute.amazonaws.com/)
++ Username: ianzhang
++ Password: testpassword
+
 ## Language/Framework/Tools/IDE
 + Deployment: `Docker`, `Docker Compose`, `AWS EC2`, `Nginx`
 + Language: `Go 1.22.3 darwin/amd64`
